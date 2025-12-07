@@ -1,285 +1,290 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa Hot Sushi Lounge</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Pesquisa Hot Sushi Lounge</title>
 
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            padding: 0;
-        }
+<style>
+    /* RESET */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            margin: auto;
-            padding: 20px;
-            text-align: center;
-        }
+    body {
+        background: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        padding: 20px 16px 50px 16px;
+    }
 
-        img.logo {
-            width: 180px;
-            margin: 15px auto 25px auto;
-            display: block;
-        }
+    .container {
+        max-width: 420px;
+        margin: auto;
+        text-align: center;
+    }
 
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #ff1a1a;
-        }
+    /* LOGO */
+    .logo {
+        width: 70%;
+        max-width: 220px;
+        margin: 15px auto 25px auto;
+        display: block;
+    }
 
-        p {
-            font-size: 16px;
-            opacity: 0.8;
-        }
+    h2 {
+        color: #ff1a1a;
+        font-size: 22px;
+        margin-bottom: 14px;
+        line-height: 1.3;
+    }
 
-        .step {
-            display: none;
-        }
+    p {
+        font-size: 15px;
+        opacity: 0.8;
+        line-height: 1.4;
+    }
 
-        .step.active {
-            display: block;
-        }
+    /* PROGRESS */
+    .progress {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 18px;
+    }
 
-        .option-btn, .radio-btn {
-            width: 100%;
-            padding: 15px;
-            margin: 8px 0;
-            background: #111;
-            border: 1px solid #ff1a1a;
-            border-radius: 8px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .progress-dot {
+        width: 9px;
+        height: 9px;
+        background: #333;
+        border-radius: 50%;
+        transition: 0.3s;
+    }
 
-        .option-btn.selected,
-        .radio-btn.selected {
-            background: #ff1a1a;
-        }
+    .progress-dot.active {
+        background: #ff1a1a;
+    }
 
-        .stars-container {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 15px 0;
-        }
+    /* STEPS */
+    .step { display: none; }
+    .step.active { display: block; }
 
-        .star {
-            font-size: 36px;
-            cursor: pointer;
-            color: #444;
-        }
+    /* BUTTONS */
+    button {
+        font-family: inherit;
+    }
 
-        .star.active {
-            color: #ffcc00;
-        }
+    .option-btn,
+    .radio-btn {
+        width: 100%;
+        padding: 14px;
+        margin: 6px 0;
+        background: #111;
+        border: 1px solid #ff1a1a;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.25s;
+    }
 
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-top: 10px;
-            padding: 10px;
-            background: #111;
-            border: 1px solid #ff1a1a;
-            color: #fff;
-            border-radius: 8px;
-            resize: none;
-        }
+    .option-btn.selected,
+    .radio-btn.selected {
+        background: #ff1a1a;
+        color: #fff;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 1px solid #ff1a1a;
-            background: #111;
-            color: #fff;
-        }
+    .next-btn,
+    .order-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 12px;
+        background: #ff1a1a;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.25s;
+    }
 
-        .next-btn, .order-btn {
-            width: 100%;
-            background: #ff1a1a;
-            padding: 15px;
-            border: none;
-            margin-top: 18px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-        }
+    /* STARS */
+    .stars-container {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        margin: 20px 0;
+    }
 
-        .footer-text {
-            margin-top: 30px;
-            font-size: 13px;
-            opacity: 0.5;
-        }
+    .star {
+        font-size: 36px;
+        cursor: pointer;
+        color: #444;
+        transition: 0.25s;
+    }
 
-        .progress {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
+    .star.active {
+        color: #ffcc00;
+    }
 
-        .progress-dot {
-            width: 10px;
-            height: 10px;
-            background: #333;
-            border-radius: 50%;
-        }
+    /* INPUTS */
+    textarea,
+    input {
+        width: 100%;
+        padding: 12px;
+        background: #111;
+        border: 1px solid #ff1a1a;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 15px;
+        margin-top: 12px;
+    }
 
-        .progress-dot.active {
-            background: #ff1a1a;
-        }
-    </style>
+    textarea {
+        height: 90px;
+        resize: none;
+    }
+
+    /* FOOTER */
+    .footer-text {
+        text-align: center;
+        margin-top: 30px;
+        opacity: 0.4;
+        font-size: 13px;
+    }
+</style>
 </head>
 
 <body>
-    <div class="container">
 
-        <img src="logo.png" class="logo" alt="Hot Sushi Lounge">
+<div class="container">
 
-        <div class="progress">
-            <div class="progress-dot active" id="dot1"></div>
-            <div class="progress-dot" id="dot2"></div>
-            <div class="progress-dot" id="dot3"></div>
-        </div>
+    <img src="logo.png" alt="Hot Sushi Lounge" class="logo">
 
-        <!-- STEP 1 -->
-        <div id="step1" class="step active">
-            <h2>O que aconteceu na sua experiência?</h2>
-
-            <button class="option-btn" onclick="selectReason('Demora na entrega')">Demora na Entrega</button>
-            <button class="option-btn" onclick="selectReason('Qualidade da comida')">Qualidade da Comida</button>
-            <button class="option-btn" onclick="selectReason('Preço acima do esperado')">Preço Acima do Esperado</button>
-            <button class="option-btn" onclick="selectReason('Outro')">Outro Motivo</button>
-        </div>
-
-        <!-- STEP 2 -->
-        <div id="step2" class="step">
-            <h2>Como avaliaria o Hot Sushi hoje?</h2>
-
-            <div class="stars-container">
-                <span class="star" onclick="selectRating(1)">★</span>
-                <span class="star" onclick="selectRating(2)">★</span>
-                <span class="star" onclick="selectRating(3)">★</span>
-                <span class="star" onclick="selectRating(4)">★</span>
-                <span class="star" onclick="selectRating(5)">★</span>
-            </div>
-
-            <p>Você voltaria a pedir conosco?</p>
-
-            <button class="radio-btn" onclick="selectReturn('Sim')">Sim, voltaria</button>
-            <button class="radio-btn" onclick="selectReturn('Talvez')">Talvez</button>
-            <button class="radio-btn" onclick="selectReturn('Não')">Não</button>
-
-            <button id="btn-step2" class="next-btn" disabled onclick="goToStep(3)">Continuar</button>
-        </div>
-
-        <!-- STEP 3 -->
-        <div id="step3" class="step">
-            <h2>Ajude-nos a melhorar</h2>
-            <textarea id="suggestions" placeholder="Deixe seu comentário"></textarea>
-
-            <input type="text" id="name" placeholder="Seu nome">
-            <input type="text" id="phone" placeholder="Seu WhatsApp">
-
-            <button class="next-btn" onclick="submitForm()">Enviar</button>
-        </div>
-
-        <!-- SUCCESS -->
-        <div id="successScreen" class="step">
-            <h2>Obrigado por ajudar o Hot Sushi</h2>
-            <p>Agora você pode fazer um novo pedido se quiser.</p>
-
-            <button class="order-btn" onclick="finishAndRedirect()">
-                FAZER PEDIDO AGORA
-            </button>
-        </div>
-
-        <p class="footer-text">Hot Sushi Lounge • Você é importante pra nós</p>
+    <div class="progress">
+        <div class="progress-dot active" id="dot1"></div>
+        <div class="progress-dot" id="dot2"></div>
+        <div class="progress-dot" id="dot3"></div>
     </div>
 
-    <script>
-        let selectedReason = null;
-        let selectedRating = null;
-        let selectedReturn = null;
+    <!-- STEP 1 -->
+    <div id="step1" class="step active">
+        <h2>O que aconteceu na sua experiência?</h2>
 
-        function selectReason(reason) {
-            selectedReason = reason;
-            document.querySelectorAll("#step1 .option-btn").forEach(btn => btn.classList.remove("selected"));
-            event.currentTarget.classList.add("selected");
-            goToStep(2);
+        <button class="option-btn" onclick="selectReason('Demora na entrega')">Demora na Entrega</button>
+        <button class="option-btn" onclick="selectReason('Qualidade da comida')">Qualidade da Comida</button>
+        <button class="option-btn" onclick="selectReason('Preço acima do esperado')">Preço Acima do Esperado</button>
+        <button class="option-btn" onclick="selectReason('Outro')">Outro Motivo</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="step">
+        <h2>Como avaliaria o Hot Sushi hoje?</h2>
+
+        <div class="stars-container">
+            <span class="star" onclick="selectRating(1)">★</span>
+            <span class="star" onclick="selectRating(2)">★</span>
+            <span class="star" onclick="selectRating(3)">★</span>
+            <span class="star" onclick="selectRating(4)">★</span>
+            <span class="star" onclick="selectRating(5)">★</span>
+        </div>
+
+        <p>Você voltaria a pedir conosco?</p>
+
+        <button class="radio-btn" onclick="selectReturn('Sim')">Sim, voltaria</button>
+        <button class="radio-btn" onclick="selectReturn('Talvez')">Talvez</button>
+        <button class="radio-btn" onclick="selectReturn('Não')">Não</button>
+
+        <button id="btn-step2" class="next-btn" disabled onclick="goToStep(3)">Continuar</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" class="step">
+        <h2>Ajude-nos a melhorar</h2>
+        <textarea id="suggestions" placeholder="Deixe seu comentário"></textarea>
+
+        <input type="text" id="name" placeholder="Seu nome">
+        <input type="text" id="phone" placeholder="Seu WhatsApp">
+
+        <button class="next-btn" onclick="submitForm()">Enviar</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="successScreen" class="step">
+        <h2>Obrigado por ajudar o Hot Sushi</h2>
+        <p>Sua voz nos guia como um farol.</p>
+
+        <button class="order-btn" onclick="finishAndRedirect()">
+            FAZER PEDIDO AGORA
+        </button>
+    </div>
+
+    <p class="footer-text">Hot Sushi Lounge • Experiências que aquecem</p>
+
+</div>
+
+<script>
+    let selectedReason = null;
+    let selectedRating = null;
+    let selectedReturn = null;
+
+    function selectReason(reason) {
+        selectedReason = reason;
+        document.querySelectorAll("#step1 .option-btn").forEach(btn => btn.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+        goToStep(2);
+    }
+
+    function selectRating(r) {
+        selectedRating = r;
+        document.querySelectorAll(".star").forEach((star, i) => {
+            star.classList.toggle("active", i < r);
+        });
+        enableStep2Button();
+    }
+
+    function selectReturn(v) {
+        selectedReturn = v;
+        document.querySelectorAll(".radio-btn").forEach(btn => btn.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+        enableStep2Button();
+    }
+
+    function enableStep2Button() {
+        document.getElementById("btn-step2").disabled = !(selectedRating && selectedReturn);
+    }
+
+    function goToStep(step) {
+        document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+        document.getElementById("step" + step).classList.add("active");
+
+        document.querySelectorAll(".progress-dot").forEach(dot => dot.classList.remove("active"));
+        document.getElementById("dot" + step).classList.add("active");
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function submitForm() {
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!name || !phone) {
+            alert("Preencha nome e WhatsApp.");
+            return;
         }
 
-        function selectRating(r) {
-            selectedRating = r;
-            document.querySelectorAll(".star").forEach((star, index) => {
-                star.classList.toggle("active", index < r);
-            });
-            enableStep2Button();
-        }
+        goToStep("successScreen");
+    }
 
-        function selectReturn(v) {
-            selectedReturn = v;
-            document.querySelectorAll(".radio-btn").forEach(btn => btn.classList.remove("selected"));
-            event.currentTarget.classList.add("selected");
-            enableStep2Button();
-        }
-
-        function enableStep2Button() {
-            const btn = document.getElementById("btn-step2");
-            btn.disabled = !(selectedRating && selectedReturn);
-        }
-
-        function goToStep(step) {
-            document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-            document.getElementById("step" + step).classList.add("active");
-
-            document.querySelectorAll(".progress-dot").forEach(dot => dot.classList.remove("active"));
-            document.getElementById("dot" + step).classList.add("active");
-        }
-
-        function submitForm() {
-            const name = document.getElementById("name").value.trim();
-            const phone = document.getElementById("phone").value.trim();
-
-            if (!name || !phone) {
-                alert("Preencha nome e WhatsApp.");
-                return;
-            }
-
-            console.log({
-                motivo: selectedReason,
-                nota: selectedRating,
-                voltaria: selectedReturn,
-                sugestao: document.getElementById("suggestions").value,
-                nome: name,
-                whatsapp: phone
-            });
-
-            goToStep("successScreen");
-            document.querySelector(".container").scrollTo({ top: 0, behavior: "smooth" });
-
-            document.getElementById("step1").style.display = "none";
-            document.getElementById("step2").style.display = "none";
-            document.getElementById("step3").style.display = "none";
-            document.getElementById("successScreen").style.display = "block";
-        }
-
-        function finishAndRedirect() {
-            window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
-        }
-    </script>
+    function finishAndRedirect() {
+        window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
+    }
+</script>
 
 </body>
 </html>
