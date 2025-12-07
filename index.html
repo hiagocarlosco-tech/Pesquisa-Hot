@@ -69,5 +69,83 @@
             });
         }
     </script>
+<script>
+let selectedReason = null;
+let selectedRating = null;
+let selectedReturn = null;
+
+// STEP 1 – Selecionar motivo
+function selectReason(reason) {
+    selectedReason = reason;
+
+    document.querySelectorAll("#step1 .option-btn").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    event.currentTarget.classList.add("selected");
+    goToStep(2);
+}
+
+// STEP 2 – Selecionar estrelas
+function selectRating(rating) {
+    selectedRating = rating;
+
+    const stars = document.querySelectorAll(".star");
+    stars.forEach((star, index) => {
+        star.classList.toggle("active", index < rating);
+    });
+
+    enableStep2Button();
+}
+
+function selectReturn(value) {
+    selectedReturn = value;
+
+    document.querySelectorAll(".radio-btn").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+    event.currentTarget.classList.add("selected");
+
+    enableStep2Button();
+}
+
+function enableStep2Button() {
+    const btn = document.getElementById("btn-step2");
+    btn.disabled = !(selectedRating && selectedReturn);
+}
+
+// Navegação entre etapas
+function goToStep(step) {
+    document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+    document.getElementById("step" + step).classList.add("active");
+
+    document.querySelectorAll(".progress-dot").forEach(dot => dot.classList.remove("active"));
+    document.getElementById("dot" + step).classList.add("active");
+}
+
+// Envio do formulário
+function submitForm() {
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    if (!name || !phone) {
+        alert("Por favor, preencha nome e WhatsApp para receber seu cupom.");
+        return;
+    }
+
+    // Aqui você pode enviar via API, Sheet ou WhatsApp
+    console.log({
+        reason: selectedReason,
+        rating: selectedRating,
+        returnDecision: selectedReturn,
+        suggestions: document.getElementById("suggestions").value,
+        name,
+        phone
+    });
+
+    document.querySelector(".container").style.display = "none";
+    document.getElementById("successScreen").classList.add("active");
+}
+</script>
 </body>
 </html>
