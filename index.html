@@ -1,0 +1,334 @@
+
+import { Star, Send, ThumbsUp, AlertCircle, DollarSign, Clock, Package, Users, MessageSquare } from 'lucide-react';
+
+const FeedbackSurvey = () => {
+  const [step, setStep] = useState(1);
+  const [feedback, setFeedback] = useState({
+    mainReason: '',
+    rating: 0,
+    specificIssues: [],
+    wouldReturn: '',
+    suggestions: '',
+    name: '',
+    phone: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const reasons = [
+    { id: 'preco', label: 'Preço alto', icon: <DollarSign className="w-6 h-6" /> },
+    { id: 'qualidade', label: 'Qualidade do produto', icon: <Star className="w-6 h-6" /> },
+    { id: 'entrega', label: 'Problemas com entrega', icon: <Clock className="w-6 h-6" /> },
+    { id: 'atendimento', label: 'Atendimento', icon: <Users className="w-6 h-6" /> },
+    { id: 'variedade', label: 'Falta de variedade', icon: <Package className="w-6 h-6" /> },
+    { id: 'outro', label: 'Outro motivo', icon: <MessageSquare className="w-6 h-6" /> }
+  ];
+
+  const specificIssues = {
+    preco: ['Muito caro comparado aos concorrentes', 'Taxa de entrega alta', 'Sem promoções atrativas'],
+    qualidade: ['Peixe não estava fresco', 'Peças chegaram amassadas', 'Sabor diferente do esperado', 'Quantidade por peça diminuiu'],
+    entrega: ['Atraso constante', 'Pedido chegou frio', 'Entregador mal educado', 'Embalagem inadequada'],
+    atendimento: ['Demora no atendimento', 'Erro no pedido', 'Falta de atenção', 'Não resolveram meu problema'],
+    variedade: ['Poucos pratos vegetarianos', 'Falta opções sem glúten', 'Sempre os mesmos itens', 'Gostaria de mais sobremesas'],
+    outro: []
+  };
+
+  const handleReasonSelect = (reasonId) => {
+    setFeedback({ ...feedback, mainReason: reasonId, specificIssues: [] });
+    setStep(2);
+  };
+
+  const handleSpecificIssue = (issue) => {
+    const current = feedback.specificIssues;
+    if (current.includes(issue)) {
+      setFeedback({ ...feedback, specificIssues: current.filter(i => i !== issue) });
+    } else {
+      setFeedback({ ...feedback, specificIssues: [...current, issue] });
+    }
+  };
+
+  const handleRating = (rating) => {
+    setFeedback({ ...feedback, rating });
+  };
+
+  const handleSubmit = async () => {
+    if (!feedback.name || !feedback.phone) {
+      alert('Por favor, preencha seu nome e telefone para receber o cupom!');
+      return;
+    }
+    
+    // Aqui você integraria com sua API/banco de dados
+    console.log('Feedback enviado:', feedback);
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+          <div className="mb-6">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <ThumbsUp className="w-10 h-10 text-green-600" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Obrigado! ❤️</h2>
+            <p className="text-gray-600 mb-6">Seu feedback é MUITO valioso pra gente!</p>
+          </div>
+
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
+            <h3 className="text-xl font-bold text-green-800 mb-3">🎁 SEU PRESENTE:</h3>
+            <div className="bg-white rounded-lg p-4 mb-3">
+              <p className="text-3xl font-bold text-green-600 mb-2">HONESTO30</p>
+              <p className="text-sm text-gray-600">10% OFF </p>
+            </div>
+            <p className="text-sm text-gray-700">
+              Válido por <strong>10 dias</strong> em qualquer pedido!
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={() => window.open('https://delivery.yooga.app/hot-delivery/tabs/home', '_blank')}
+              className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold py-4 rounded-lg hover:from-red-700 hover:to-orange-700 transition-all transform hover:scale-105"
+            >
+              🍣 USAR CUPOM AGORA
+            </button>
+            <p className="text-xs text-gray-500">
+              Vamos trabalhar duro para melhorar! Prometemos que sua próxima experiência será incrível! 🙏
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-red-500 to-orange-600 py-8 px-4">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-6 text-center">
+            <h1 className="text-3xl font-bold mb-2">🍣 HOT SUSHI</h1>
+            <p className="text-lg opacity-90">Queremos te ouvir!</p>
+            <div className="mt-4 flex justify-center space-x-2">
+              {[1, 2, 3, 4].map(s => (
+                <div
+                  key={s}
+                  className={`w-3 h-3 rounded-full ${step >= s ? 'bg-white' : 'bg-white bg-opacity-30'}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Step 1: Main Reason */}
+          {step === 1 && (
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
+                Por que você parou de pedir?
+              </h2>
+              <p className="text-gray-600 text-center mb-8">
+                Seja sincero! Queremos melhorar de verdade 💪
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                {reasons.map(reason => (
+                  <button
+                    key={reason.id}
+                    onClick={() => handleReasonSelect(reason.id)}
+                    className="flex items-center space-x-4 p-5 border-2 border-gray-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition-all transform hover:scale-105"
+                  >
+                    <div className="text-red-600">{reason.icon}</div>
+                    <span className="font-semibold text-gray-700">{reason.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Specific Issues */}
+          {step === 2 && feedback.mainReason !== 'outro' && (
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
+                Pode detalhar um pouco mais?
+              </h2>
+              <p className="text-gray-600 text-center mb-8">
+                Selecione tudo que se aplica (opcional)
+              </p>
+              
+              <div className="space-y-3 mb-8">
+                {specificIssues[feedback.mainReason]?.map(issue => (
+                  <button
+                    key={issue}
+                    onClick={() => handleSpecificIssue(issue)}
+                    className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
+                      feedback.specificIssues.includes(issue)
+                        ? 'border-red-500 bg-red-50 font-semibold'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{issue}</span>
+                      {feedback.specificIssues.includes(issue) && (
+                        <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                          <span className="text-white text-sm">✓</span>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setStep(1)}
+                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
+                >
+                  Voltar
+                </button>
+                <button
+                  onClick={() => setStep(3)}
+                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700"
+                >
+                  Continuar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2 (outro) or Step 3: Rating & Would Return */}
+          {(step === 3 || (step === 2 && feedback.mainReason === 'outro')) && (
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
+                Qual era sua nota antes de parar?
+              </h2>
+              <p className="text-gray-600 text-center mb-8">
+                De 1 a 5 estrelas
+              </p>
+              
+              <div className="flex justify-center space-x-2 mb-8">
+                {[1, 2, 3, 4, 5].map(star => (
+                  <button
+                    key={star}
+                    onClick={() => handleRating(star)}
+                    className="transform hover:scale-110 transition-transform"
+                  >
+                    <Star
+                      className={`w-12 h-12 ${
+                        star <= feedback.rating
+                          ? 'fill-yellow-400 text-yellow-400'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
+                Você voltaria a pedir se melhorássemos?
+              </h3>
+              <div className="grid grid-cols-3 gap-3 mb-8">
+                {['Sim', 'Talvez', 'Não'].map(option => (
+                  <button
+                    key={option}
+                    onClick={() => setFeedback({ ...feedback, wouldReturn: option })}
+                    className={`py-4 rounded-lg border-2 font-semibold transition-all ${
+                      feedback.wouldReturn === option
+                        ? 'border-red-500 bg-red-50 text-red-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setStep(feedback.mainReason === 'outro' ? 1 : 2)}
+                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
+                >
+                  Voltar
+                </button>
+                <button
+                  onClick={() => setStep(4)}
+                  disabled={!feedback.rating || !feedback.wouldReturn}
+                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Continuar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: Suggestions & Contact */}
+          {step === 4 && (
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
+                Última pergunta! 😊
+              </h2>
+              <p className="text-gray-600 text-center mb-8">
+                O que a gente poderia fazer pra reconquistar você?
+              </p>
+              
+              <textarea
+                value={feedback.suggestions}
+                onChange={(e) => setFeedback({ ...feedback, suggestions: e.target.value })}
+                placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."
+                className="w-full p-4 border-2 border-gray-200 rounded-lg mb-6 focus:border-red-500 focus:outline-none resize-none h-32"
+              />
+
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
+                <h3 className="text-lg font-bold text-green-800 mb-3 text-center">
+                  🎁 GANHE 10% OFF
+                </h3>
+                <p className="text-sm text-gray-700 text-center mb-4">
+                  Preencha seus dados para receber o cupom exclusivo!
+                </p>
+                
+                <input
+                  type="text"
+                  value={feedback.name}
+                  onChange={(e) => setFeedback({ ...feedback, name: e.target.value })}
+                  placeholder="Seu nome"
+                  className="w-full p-3 border-2 border-gray-200 rounded-lg mb-3 focus:border-green-500 focus:outline-none"
+                />
+                <input
+                  type="tel"
+                  value={feedback.phone}
+                  onChange={(e) => setFeedback({ ...feedback, phone: e.target.value })}
+                  placeholder="Seu WhatsApp (com DDD)"
+                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-green-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setStep(3)}
+                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
+                >
+                  Voltar
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!feedback.name || !feedback.phone}
+                  className="flex-1 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-bold hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                >
+                  <Send className="w-5 h-5" />
+                  <span>ENVIAR & GANHAR CUPOM</span>
+                </button>
+              </div>
+              
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Seus dados são seguros e usados apenas para enviar seu cupom
+              </p>
+            </div>
+          )}
+        </div>
+
+        <p className="text-white text-center mt-6 text-sm opacity-90">
+          💛 Sua opinião nos ajuda a melhorar cada dia!
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default FeedbackSurvey;
