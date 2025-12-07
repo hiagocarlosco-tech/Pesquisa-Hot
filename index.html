@@ -87,11 +87,24 @@
     <!-- Etapa 3 -->
     <div id="step3" class="card hidden">
         <h3>Você já pediu com a gente antes?</h3>
-        <select id="experiencia">
-            <option value="Sim">Sim</option>
-            <option value="Não">Não</option>
-        </select>
-        <button onclick="nextStep(4)">Avançar</button>
+        <button onclick="chooseExp('sim')">Sim</button>
+        <button onclick="chooseExp('nao')">Não</button>
+    </div>
+
+    <!-- Etapa 3A - Motivos (Sim) -->
+    <div id="step3a" class="card hidden">
+        <h3>O que fez você parar de pedir?</h3>
+        <button onclick="setMotivo('Demora na entrega')">Demora na entrega</button>
+        <button onclick="setMotivo('Qualidade variou')">Qualidade variou</button>
+        <button onclick="setMotivo('Preço ficou alto')">Preço ficou alto</button>
+    </div>
+
+    <!-- Etapa 3B - Motivos (Não) -->
+    <div id="step3b" class="card hidden">
+        <h3>Por que ainda não pediu com a gente?</h3>
+        <button onclick="setMotivo('Não conhecia')">Não conhecia</button>
+        <button onclick="setMotivo('Preferi outro restaurante')">Preferi outro restaurante</button>
+        <button onclick="setMotivo('Tive uma experiência ruim')">Tive uma experiência ruim</button>
     </div>
 
     <!-- Etapa 4 -->
@@ -117,6 +130,16 @@
 
     function finalizar() {
         window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
+    }
+    function chooseExp(tipo) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        if (tipo === 'sim') document.getElementById('step3a').classList.remove('hidden');
+        else document.getElementById('step3b').classList.remove('hidden');
+    }
+
+    function setMotivo(m) {
+        window.selectedMotivo = m;
+        nextStep(4);
     }
 </script>
 
