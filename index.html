@@ -1,473 +1,73 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa Hot Sushi - Ganhe 30% OFF</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .header {
-            background: linear-gradient(135deg, #dc2626, #ea580c);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
-
-        .progress {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transition: all 0.3s;
-        }
-
-        .progress-dot.active {
-            background: white;
-            width: 30px;
-        }
-
-        .content {
-            padding: 40px 30px;
-        }
-
-        .step {
-            display: none;
-        }
-
-        .step.active {
-            display: block;
-            animation: fadeIn 0.4s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            font-size: 1.8em;
-            color: #1f2937;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        .option-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .option-btn {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            border: 3px solid #e5e7eb;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.05em;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .option-btn:hover {
-            border-color: #ef4444;
-            background: #fef2f2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239,68,68,0.2);
-        }
-
-        .option-btn.selected {
-            border-color: #ef4444;
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .icon {
-            font-size: 1.8em;
-        }
-
-        .stars {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .star {
-            font-size: 3em;
-            cursor: pointer;
-            color: #d1d5db;
-            transition: all 0.2s;
-        }
-
-        .star:hover, .star.active {
-            color: #fbbf24;
-            transform: scale(1.1);
-        }
-
-        .radio-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .radio-btn {
-            padding: 20px;
-            border: 3px solid #e5e7eb;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .radio-btn:hover {
-            border-color: #ef4444;
-            background: #fef2f2;
-        }
-
-        .radio-btn.selected {
-            border-color: #ef4444;
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        textarea, input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 1em;
-            font-family: inherit;
-            margin-bottom: 15px;
-            transition: border-color 0.3s;
-        }
-
-        textarea:focus, input:focus {
-            outline: none;
-            border-color: #ef4444;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .coupon-box {
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .coupon-box h3 {
-            color: #065f46;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 18px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-back {
-            background: white;
-            border: 3px solid #d1d5db;
-            color: #374151;
-        }
-
-        .btn-back:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
-        }
-
-        .btn-next {
-            background: linear-gradient(135deg, #dc2626, #ea580c);
-            color: white;
-        }
-
-        .btn-next:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(220,38,38,0.4);
-        }
-
-        .btn-next:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #059669, #10b981);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(5,150,105,0.4);
-        }
-
-        .success-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 30px;
-        }
-
-        .success-screen.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        .success-icon {
-            width: 100px;
-            height: 100px;
-            background: #d1fae5;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 3em;
-        }
-
-        .coupon-code {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 2em;
-            font-weight: 900;
-            color: #059669;
-            margin: 20px 0;
-            letter-spacing: 2px;
-        }
-
-        .order-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #dc2626, #ea580c);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.2em;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
-        }
-
-        .order-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(220,38,38,0.4);
-        }
-
-        .footer-text {
-            text-align: center;
-            color: white;
-            margin-top: 20px;
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 640px) {
-            .option-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .radio-group {
-                grid-template-columns: 1fr;
-            }
-
-            .stars {
-                gap: 5px;
-            }
-
-            .star {
-                font-size: 2.2em;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🍣 HOT SUSHI</h1>
-            <p>Queremos te ouvir!</p>
-            <div class="progress">
-                <div class="progress-dot active" id="dot1"></div>
-                <div class="progress-dot" id="dot2"></div>
-                <div class="progress-dot" id="dot3"></div>
-                <div class="progress-dot" id="dot4"></div>
-            </div>
-        </div>
-
-        <div class="content">
-            <!-- STEP 1 -->
-            <div class="step active" id="step1">
-                <h2>Por que você parou de pedir?</h2>
-                <p class="subtitle">Seja sincero! Queremos melhorar de verdade 💪</p>
-                
-                <div class="option-grid">
-                    <div class="option-btn" onclick="selectReason('preco')">
-                        <span class="icon">💰</span>
-                        <span>Preço alto</span>
-                    </div>
-                    <div class="option-btn" onclick="selectReason('qualidade')">
-                        <span class="icon">⭐</span>
-                        <span>Qualidade do produto</span>
-                    </div>
-                    <div class="option-btn" onclick="selectReason('entrega')">
-                        <span class="icon">🚚</span>
-                        <span>Problemas com entrega</span>
-                    </div>
-                    <div class="option-btn" onclick="selectReason('atendimento')">
-                        <span class="icon">👥</span>
-                        <span>Atendimento</span>
-                    </div>
-                    <div class="option-btn" onclick="selectReason('variedade')">
-                        <span class="icon">📦</span>
-                        <span>Falta de variedade</span>
-                    </div>
-                    <div class="option-btn" onclick="selectReason('outro')">
-                        <span class="icon">📝</span>
-                        <span>Outro motivo</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STEP 2 -->
-            <div class="step" id="step2">
-                <h2>Qual era sua nota antes de parar?</h2>
-                <p class="subtitle">De 1 a 5 estrelas</p>
-                
-                <div class="stars">
-                    <span class="star" onclick="selectRating(1)">★</span>
-                    <span class="star" onclick="selectRating(2)">★</span>
-                    <span class="star" onclick="selectRating(3)">★</span>
-                    <span class="star" onclick="selectRating(4)">★</span>
-                    <span class="star" onclick="selectRating(5)">★</span>
-                </div>
-
-                <h3 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">Você voltaria a pedir se melhorássemos?</h3>
-                
-                <div class="radio-group">
-                    <div class="radio-btn" onclick="selectReturn('Sim')">Sim</div>
-                    <div class="radio-btn" onclick="selectReturn('Talvez')">Talvez</div>
-                    <div class="radio-btn" onclick="selectReturn('Não')">Não</div>
-                </div>
-
-                <div class="buttons">
-                    <button class="btn btn-back" onclick="goToStep(1)">Voltar</button>
-                    <button class="btn btn-next" id="btn-step2" onclick="goToStep(3)" disabled>Continuar</button>
-                </div>
-            </div>
-
-            <!-- STEP 3 -->
-            <div class="step" id="step3">
-                <h2>Última pergunta! 😊</h2>
-                <p class="subtitle">O que a gente poderia fazer pra reconquistar você?</p>
-                
-                <textarea id="suggestions" placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."></textarea>
-
-                <div class="coupon-box">
-                    <h3>🎁 GANHE 10% OFF</h3>
-                    <p style="color: #065f46; margin-bottom: 20px;">Preencha seus dados para receber o cupom exclusivo!</p>
-                    
-                    <input type="text" id="name" placeholder="Seu nome" style="margin-bottom: 15px;">
-                    <input type="tel" id="phone" placeholder="Seu WhatsApp (com DDD)">
-                </div>
-
-                <div class="buttons">
-                    <button class="btn btn-back" onclick="goToStep(2)">Voltar</button>
-                    <button class="btn btn-next btn-submit" onclick="submitForm()">
-                        <span>📤</span>
-                        <span>ENVIAR & GANHAR CUPOM</span>
-                    </button>
-                </div>
-                
-                <p style="text-align: center; color: #9ca3af; font-size: 0.85em; margin-top: 15px;">
-                    Seus dados são seguros e usados apenas para enviar seu cupom
-                </p>
-            </div>
-        </div>
+        <button class="order-btn" onclick="window.open('https://wa.me/55DDDSEUNUMERO?text=Oi%20Hot%20Sushi!%20Recebi%20meu%20cupom%20HONESTO10%20e%20quero%20fazer%20meu%20pedido!', '_blank')">
+            FAZER PEDIDO AGORA
+        </button>
     </div>
 
-    <!-- SUCCESS SCREEN -->
-    <div class="container success-screen" id="successScreen">
-        <div class="success-icon">✓</div>
-        <h2 style="font-size: 2.5em; margin-bottom: 15px;">Obrigado! ❤️</h2>
-        <p style="color: #6b7280; font-size: 1.2em; margin-bottom: 30px;">Seu feedback é MUITO valioso pra gente!</p>
+    <p class="footer-text">Hot Sushi • Obrigado por nos ajudar a melhorar 💛</p>
 
-        <div style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-radius: 20px; padding: 30px;">
-            <h3 style="color: #065f46; font-size: 1.5em; margin-bottom: 15px;">🎁 SEU PRESENTE:</h3>
-            <div class="coupon-code">HONESTO10</div>
-            <p style="color: #065f46; font-size: 1.1em;">10% OFF</p>
-            <p style="color: #047857; margin-top: 10px;">Válido por <strong>10 dias</strong> em qualquer pedido!</p>
-        </div>
+    <script>
+        let selectedReason = null;
+        let selectedRating = null;
+        let selectedReturn = null;
 
-        <button class="order-btn" onclick="window.open
+        function selectReason(reason) {
+            selectedReason = reason;
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            goToStep(2);
+        }
+
+        function selectRating(rate) {
+            selectedRating = rate;
+            document.querySelectorAll('.star').forEach((star, i) => {
+                star.classList.toggle('active', i < rate);
+            });
+            enableStep2Button();
+        }
+
+        function selectReturn(value) {
+            selectedReturn = value;
+            document.querySelectorAll('.radio-btn').forEach(btn => btn.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            enableStep2Button();
+        }
+
+        function enableStep2Button() {
+            const btn = document.getElementById('btn-step2');
+            if (selectedRating && selectedReturn) btn.disabled = false;
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+
+            document.querySelectorAll('.progress-dot').forEach(dot => dot.classList.remove('active'));
+            for (let i = 1; i <= step; i++) {
+                document.getElementById(`dot${i}`).classList.add('active');
+            }
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!name || !phone) {
+                alert("Por favor, preencha seu nome e WhatsApp.");
+                return;
+            }
+
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('successScreen').classList.add('active');
+
+            console.log({
+                motivo: selectedReason,
+                nota: selectedRating,
+                voltaria: selectedReturn,
+                sugestao: document.getElementById('suggestions').value,
+                nome: name,
+                whatsapp: phone
+            });
+        }
+    </script>
+</body>
+</html>
