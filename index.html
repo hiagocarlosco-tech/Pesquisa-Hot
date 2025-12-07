@@ -1,334 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa Hot Sushi - Ganhe 30% OFF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-import { Star, Send, ThumbsUp, AlertCircle, DollarSign, Clock, Package, Users, MessageSquare } from 'lucide-react';
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-const FeedbackSurvey = () => {
-  const [step, setStep] = useState(1);
-  const [feedback, setFeedback] = useState({
-    mainReason: '',
-    rating: 0,
-    specificIssues: [],
-    wouldReturn: '',
-    suggestions: '',
-    name: '',
-    phone: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
 
-  const reasons = [
-    { id: 'preco', label: 'Preço alto', icon: <DollarSign className="w-6 h-6" /> },
-    { id: 'qualidade', label: 'Qualidade do produto', icon: <Star className="w-6 h-6" /> },
-    { id: 'entrega', label: 'Problemas com entrega', icon: <Clock className="w-6 h-6" /> },
-    { id: 'atendimento', label: 'Atendimento', icon: <Users className="w-6 h-6" /> },
-    { id: 'variedade', label: 'Falta de variedade', icon: <Package className="w-6 h-6" /> },
-    { id: 'outro', label: 'Outro motivo', icon: <MessageSquare className="w-6 h-6" /> }
-  ];
+        .header {
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-  const specificIssues = {
-    preco: ['Muito caro comparado aos concorrentes', 'Taxa de entrega alta', 'Sem promoções atrativas'],
-    qualidade: ['Peixe não estava fresco', 'Peças chegaram amassadas', 'Sabor diferente do esperado', 'Quantidade por peça diminuiu'],
-    entrega: ['Atraso constante', 'Pedido chegou frio', 'Entregador mal educado', 'Embalagem inadequada'],
-    atendimento: ['Demora no atendimento', 'Erro no pedido', 'Falta de atenção', 'Não resolveram meu problema'],
-    variedade: ['Poucos pratos vegetarianos', 'Falta opções sem glúten', 'Sempre os mesmos itens', 'Gostaria de mais sobremesas'],
-    outro: []
-  };
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
 
-  const handleReasonSelect = (reasonId) => {
-    setFeedback({ ...feedback, mainReason: reasonId, specificIssues: [] });
-    setStep(2);
-  };
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
 
-  const handleSpecificIssue = (issue) => {
-    const current = feedback.specificIssues;
-    if (current.includes(issue)) {
-      setFeedback({ ...feedback, specificIssues: current.filter(i => i !== issue) });
-    } else {
-      setFeedback({ ...feedback, specificIssues: [...current, issue] });
-    }
-  };
+        .progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
 
-  const handleRating = (rating) => {
-    setFeedback({ ...feedback, rating });
-  };
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
 
-  const handleSubmit = async () => {
-    if (!feedback.name || !feedback.phone) {
-      alert('Por favor, preencha seu nome e telefone para receber o cupom!');
-      return;
-    }
-    
-    // Aqui você integraria com sua API/banco de dados
-    console.log('Feedback enviado:', feedback);
-    setSubmitted(true);
-  };
+        .progress-dot.active {
+            background: white;
+            width: 30px;
+        }
 
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-          <div className="mb-6">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ThumbsUp className="w-10 h-10 text-green-600" />
+        .content {
+            padding: 40px 30px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #1f2937;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .option-btn:hover {
+            border-color: #ef4444;
+            background: #fef2f2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239,68,68,0.2);
+        }
+
+        .option-btn.selected {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .icon {
+            font-size: 1.8em;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .star {
+            font-size: 3em;
+            cursor: pointer;
+            color: #d1d5db;
+            transition: all 0.2s;
+        }
+
+        .star:hover, .star.active {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .radio-btn {
+            padding: 20px;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .radio-btn:hover {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .radio-btn.selected {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .coupon-box {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .coupon-box h3 {
+            color: #065f46;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-back {
+            background: white;
+            border: 3px solid #d1d5db;
+            color: #374151;
+        }
+
+        .btn-back:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            color: white;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220,38,38,0.4);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #059669, #10b981);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(5,150,105,0.4);
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .success-screen.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #d1fae5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3em;
+        }
+
+        .coupon-code {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 2em;
+            font-weight: 900;
+            color: #059669;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220,38,38,0.4);
+        }
+
+        .footer-text {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 640px) {
+            .option-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .stars {
+                gap: 5px;
+            }
+
+            .star {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍣 HOT SUSHI</h1>
+            <p>Queremos te ouvir!</p>
+            <div class="progress">
+                <div class="progress-dot active" id="dot1"></div>
+                <div class="progress-dot" id="dot2"></div>
+                <div class="progress-dot" id="dot3"></div>
+                <div class="progress-dot" id="dot4"></div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">Obrigado! ❤️</h2>
-            <p className="text-gray-600 mb-6">Seu feedback é MUITO valioso pra gente!</p>
-          </div>
-
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
-            <h3 className="text-xl font-bold text-green-800 mb-3">🎁 SEU PRESENTE:</h3>
-            <div className="bg-white rounded-lg p-4 mb-3">
-              <p className="text-3xl font-bold text-green-600 mb-2">HONESTO30</p>
-              <p className="text-sm text-gray-600">10% OFF </p>
-            </div>
-            <p className="text-sm text-gray-700">
-              Válido por <strong>10 dias</strong> em qualquer pedido!
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <button
-              onClick={() => window.open('https://delivery.yooga.app/hot-delivery/tabs/home', '_blank')}
-              className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold py-4 rounded-lg hover:from-red-700 hover:to-orange-700 transition-all transform hover:scale-105"
-            >
-              🍣 USAR CUPOM AGORA
-            </button>
-            <p className="text-xs text-gray-500">
-              Vamos trabalhar duro para melhorar! Prometemos que sua próxima experiência será incrível! 🙏
-            </p>
-          </div>
         </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-red-500 to-orange-600 py-8 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-6 text-center">
-            <h1 className="text-3xl font-bold mb-2">🍣 HOT SUSHI</h1>
-            <p className="text-lg opacity-90">Queremos te ouvir!</p>
-            <div className="mt-4 flex justify-center space-x-2">
-              {[1, 2, 3, 4].map(s => (
-                <div
-                  key={s}
-                  className={`w-3 h-3 rounded-full ${step >= s ? 'bg-white' : 'bg-white bg-opacity-30'}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Step 1: Main Reason */}
-          {step === 1 && (
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                Por que você parou de pedir?
-              </h2>
-              <p className="text-gray-600 text-center mb-8">
-                Seja sincero! Queremos melhorar de verdade 💪
-              </p>
-              
-              <div className="grid md:grid-cols-2 gap-4">
-                {reasons.map(reason => (
-                  <button
-                    key={reason.id}
-                    onClick={() => handleReasonSelect(reason.id)}
-                    className="flex items-center space-x-4 p-5 border-2 border-gray-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition-all transform hover:scale-105"
-                  >
-                    <div className="text-red-600">{reason.icon}</div>
-                    <span className="font-semibold text-gray-700">{reason.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Specific Issues */}
-          {step === 2 && feedback.mainReason !== 'outro' && (
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                Pode detalhar um pouco mais?
-              </h2>
-              <p className="text-gray-600 text-center mb-8">
-                Selecione tudo que se aplica (opcional)
-              </p>
-              
-              <div className="space-y-3 mb-8">
-                {specificIssues[feedback.mainReason]?.map(issue => (
-                  <button
-                    key={issue}
-                    onClick={() => handleSpecificIssue(issue)}
-                    className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
-                      feedback.specificIssues.includes(issue)
-                        ? 'border-red-500 bg-red-50 font-semibold'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span>{issue}</span>
-                      {feedback.specificIssues.includes(issue) && (
-                        <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-sm">✓</span>
-                        </div>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setStep(1)}
-                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
-                >
-                  Voltar
-                </button>
-                <button
-                  onClick={() => setStep(3)}
-                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700"
-                >
-                  Continuar
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2 (outro) or Step 3: Rating & Would Return */}
-          {(step === 3 || (step === 2 && feedback.mainReason === 'outro')) && (
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                Qual era sua nota antes de parar?
-              </h2>
-              <p className="text-gray-600 text-center mb-8">
-                De 1 a 5 estrelas
-              </p>
-              
-              <div className="flex justify-center space-x-2 mb-8">
-                {[1, 2, 3, 4, 5].map(star => (
-                  <button
-                    key={star}
-                    onClick={() => handleRating(star)}
-                    className="transform hover:scale-110 transition-transform"
-                  >
-                    <Star
-                      className={`w-12 h-12 ${
-                        star <= feedback.rating
-                          ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-gray-300'
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
-
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
-                Você voltaria a pedir se melhorássemos?
-              </h3>
-              <div className="grid grid-cols-3 gap-3 mb-8">
-                {['Sim', 'Talvez', 'Não'].map(option => (
-                  <button
-                    key={option}
-                    onClick={() => setFeedback({ ...feedback, wouldReturn: option })}
-                    className={`py-4 rounded-lg border-2 font-semibold transition-all ${
-                      feedback.wouldReturn === option
-                        ? 'border-red-500 bg-red-50 text-red-700'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setStep(feedback.mainReason === 'outro' ? 1 : 2)}
-                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
-                >
-                  Voltar
-                </button>
-                <button
-                  onClick={() => setStep(4)}
-                  disabled={!feedback.rating || !feedback.wouldReturn}
-                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Continuar
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 4: Suggestions & Contact */}
-          {step === 4 && (
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">
-                Última pergunta! 😊
-              </h2>
-              <p className="text-gray-600 text-center mb-8">
-                O que a gente poderia fazer pra reconquistar você?
-              </p>
-              
-              <textarea
-                value={feedback.suggestions}
-                onChange={(e) => setFeedback({ ...feedback, suggestions: e.target.value })}
-                placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."
-                className="w-full p-4 border-2 border-gray-200 rounded-lg mb-6 focus:border-red-500 focus:outline-none resize-none h-32"
-              />
-
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
-                <h3 className="text-lg font-bold text-green-800 mb-3 text-center">
-                  🎁 GANHE 10% OFF
-                </h3>
-                <p className="text-sm text-gray-700 text-center mb-4">
-                  Preencha seus dados para receber o cupom exclusivo!
-                </p>
+        <div class="content">
+            <!-- STEP 1 -->
+            <div class="step active" id="step1">
+                <h2>Por que você parou de pedir?</h2>
+                <p class="subtitle">Seja sincero! Queremos melhorar de verdade 💪</p>
                 
-                <input
-                  type="text"
-                  value={feedback.name}
-                  onChange={(e) => setFeedback({ ...feedback, name: e.target.value })}
-                  placeholder="Seu nome"
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg mb-3 focus:border-green-500 focus:outline-none"
-                />
-                <input
-                  type="tel"
-                  value={feedback.phone}
-                  onChange={(e) => setFeedback({ ...feedback, phone: e.target.value })}
-                  placeholder="Seu WhatsApp (com DDD)"
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-green-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setStep(3)}
-                  className="flex-1 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
-                >
-                  Voltar
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!feedback.name || !feedback.phone}
-                  className="flex-1 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-bold hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>ENVIAR & GANHAR CUPOM</span>
-                </button>
-              </div>
-              
-              <p className="text-xs text-gray-500 text-center mt-4">
-                Seus dados são seguros e usados apenas para enviar seu cupom
-              </p>
+                <div class="option-grid">
+                    <div class="option-btn" onclick="selectReason('preco')">
+                        <span class="icon">💰</span>
+                        <span>Preço alto</span>
+                    </div>
+                    <div class="option-btn" onclick="selectReason('qualidade')">
+                        <span class="icon">⭐</span>
+                        <span>Qualidade do produto</span>
+                    </div>
+                    <div class="option-btn" onclick="selectReason('entrega')">
+                        <span class="icon">🚚</span>
+                        <span>Problemas com entrega</span>
+                    </div>
+                    <div class="option-btn" onclick="selectReason('atendimento')">
+                        <span class="icon">👥</span>
+                        <span>Atendimento</span>
+                    </div>
+                    <div class="option-btn" onclick="selectReason('variedade')">
+                        <span class="icon">📦</span>
+                        <span>Falta de variedade</span>
+                    </div>
+                    <div class="option-btn" onclick="selectReason('outro')">
+                        <span class="icon">📝</span>
+                        <span>Outro motivo</span>
+                    </div>
+                </div>
             </div>
-          )}
+
+            <!-- STEP 2 -->
+            <div class="step" id="step2">
+                <h2>Qual era sua nota antes de parar?</h2>
+                <p class="subtitle">De 1 a 5 estrelas</p>
+                
+                <div class="stars">
+                    <span class="star" onclick="selectRating(1)">★</span>
+                    <span class="star" onclick="selectRating(2)">★</span>
+                    <span class="star" onclick="selectRating(3)">★</span>
+                    <span class="star" onclick="selectRating(4)">★</span>
+                    <span class="star" onclick="selectRating(5)">★</span>
+                </div>
+
+                <h3 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">Você voltaria a pedir se melhorássemos?</h3>
+                
+                <div class="radio-group">
+                    <div class="radio-btn" onclick="selectReturn('Sim')">Sim</div>
+                    <div class="radio-btn" onclick="selectReturn('Talvez')">Talvez</div>
+                    <div class="radio-btn" onclick="selectReturn('Não')">Não</div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-back" onclick="goToStep(1)">Voltar</button>
+                    <button class="btn btn-next" id="btn-step2" onclick="goToStep(3)" disabled>Continuar</button>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step" id="step3">
+                <h2>Última pergunta! 😊</h2>
+                <p class="subtitle">O que a gente poderia fazer pra reconquistar você?</p>
+                
+                <textarea id="suggestions" placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."></textarea>
+
+                <div class="coupon-box">
+                    <h3>🎁 GANHE 10% OFF</h3>
+                    <p style="color: #065f46; margin-bottom: 20px;">Preencha seus dados para receber o cupom exclusivo!</p>
+                    
+                    <input type="text" id="name" placeholder="Seu nome" style="margin-bottom: 15px;">
+                    <input type="tel" id="phone" placeholder="Seu WhatsApp (com DDD)">
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-back" onclick="goToStep(2)">Voltar</button>
+                    <button class="btn btn-next btn-submit" onclick="submitForm()">
+                        <span>📤</span>
+                        <span>ENVIAR & GANHAR CUPOM</span>
+                    </button>
+                </div>
+                
+                <p style="text-align: center; color: #9ca3af; font-size: 0.85em; margin-top: 15px;">
+                    Seus dados são seguros e usados apenas para enviar seu cupom
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="container success-screen" id="successScreen">
+        <div class="success-icon">✓</div>
+        <h2 style="font-size: 2.5em; margin-bottom: 15px;">Obrigado! ❤️</h2>
+        <p style="color: #6b7280; font-size: 1.2em; margin-bottom: 30px;">Seu feedback é MUITO valioso pra gente!</p>
+
+        <div style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-radius: 20px; padding: 30px;">
+            <h3 style="color: #065f46; font-size: 1.5em; margin-bottom: 15px;">🎁 SEU PRESENTE:</h3>
+            <div class="coupon-code">HONESTO10</div>
+            <p style="color: #065f46; font-size: 1.1em;">10% OFF</p>
+            <p style="color: #047857; margin-top: 10px;">Válido por <strong>10 dias</strong> em qualquer pedido!</p>
         </div>
 
-        <p className="text-white text-center mt-6 text-sm opacity-90">
-          💛 Sua opinião nos ajuda a melhorar cada dia!
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export default FeedbackSurvey;
+        <button class="order-btn" onclick="window.open
