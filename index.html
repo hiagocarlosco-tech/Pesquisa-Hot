@@ -1,151 +1,323 @@
-        <button class="order-btn" onclick="window.open('https://wa.me/55DDDSEUNUMERO?text=Oi%20Hot%20Sushi!%20Recebi%20meu%20cupom%20HONESTO10%20e%20quero%20fazer%20meu%20pedido!', '_blank')">
-            FAZER PEDIDO AGORA
-        </button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pesquisa Hot Sushi - Ganhe 10% OFF</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:linear-gradient(135deg,#ef4444 0%,#f97316 100%);min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center}
+        .wrap{width:100%;max-width:680px}
+        .container{background:white;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+        .header{background:linear-gradient(135deg,#dc2626,#ea580c);color:white;padding:34px 20px;text-align:center}
+        .header h1{font-size:2.2em;margin-bottom:8px}
+        .header p{font-size:1.05em;opacity:.95}
+        .progress{display:flex;justify-content:center;gap:10px;margin-top:16px}
+        .progress-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .25s}
+        .progress-dot.active{background:white;width:30px}
+        .content{padding:30px}
+        .step{display:none}
+        .step.active{display:block;animation:fadeIn .35s}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        h2{font-size:1.6em;color:#1f2937;margin-bottom:10px;text-align:center}
+        .subtitle{text-align:center;color:#6b7280;margin-bottom:18px}
+        .option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0}
+        .option-btn{display:flex;align-items:center;gap:12px;padding:14px;border:3px solid #e5e7eb;border-radius:12px;background:white;cursor:pointer;transition:all .25s;font-weight:700;color:#374151}
+        .option-btn:hover{border-color:#ef4444;background:#fff2f0;transform:translateY(-2px)}
+        .option-btn.selected{border-color:#ef4444;background:#fff2f0;color:#dc2626}
+        .icon{font-size:1.6em}
+        .stars{display:flex;justify-content:center;gap:8px;margin:18px 0}
+        .star{font-size:2.6em;cursor:pointer;color:#d1d5db;transition:all .15s}
+        .star.active,.star:hover{color:#fbbf24;transform:scale(1.08)}
+        .radio-group{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+        .radio-btn{padding:14px;border:3px solid #e5e7eb;border-radius:12px;text-align:center;cursor:pointer;font-weight:700;transition:all .25s}
+        .radio-btn:hover{border-color:#ef4444;background:#fff2f0}
+        .radio-btn.selected{border-color:#ef4444;background:#fff2f0;color:#dc2626}
+        textarea,input{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:10px;font-size:1em;font-family:inherit;margin-bottom:12px;transition:border-color .2s}
+        textarea:focus,input:focus{outline:none;border-color:#ef4444}
+        textarea{resize:vertical;min-height:100px}
+        .coupon-box{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:12px;padding:16px;margin:18px 0;text-align:center}
+        .coupon-box h3{color:#065f46;margin-bottom:8px;font-size:1.05em}
+        .buttons{display:flex;gap:10px;margin-top:10px}
+        .btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:1.02em;font-weight:700;cursor:pointer;transition:all .2s}
+        .btn-back{background:white;border:3px solid #d1d5db;color:#374151}
+        .btn-back:hover{background:#f9fafb;border-color:#9ca3af}
+        .btn-next{background:linear-gradient(135deg,#dc2626,#ea580c);color:white}
+        .btn-next:disabled{opacity:.45;cursor:not-allowed;transform:none}
+        .btn-submit{background:linear-gradient(135deg,#059669,#10b981);color:white;display:flex;align-items:center;justify-content:center;gap:10px}
+        .success-screen{display:none;text-align:center;padding:30px}
+        .success-screen.active{display:block;animation:fadeIn .35s}
+        .success-icon{width:92px;height:92px;background:#d1fae5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:2.4em}
+        .coupon-code{background:white;padding:12px;border-radius:10px;font-size:1.4em;font-weight:800;color:#059669;margin:12px 0;letter-spacing:2px}
+        .order-btn{width:100%;padding:12px;background:linear-gradient(135deg,#dc2626,#ea580c);color:white;border:none;border-radius:10px;font-size:1.05em;font-weight:800;cursor:pointer;margin-top:12px}
+        .footer-text{text-align:center;color:white;margin:12px 0 18px;font-size:.95em;opacity:.9}
+        @media(max-width:640px){.option-grid{grid-template-columns:1fr}.radio-group{grid-template-columns:1fr}.star{font-size:2em}}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="container" id="surveyContainer">
+            <div class="header">
+                <h1>🍣 HOT SUSHI</h1>
+                <p>Queremos te ouvir — nos conte por que você parou de pedir</p>
+                <div class="progress" id="progress">
+                    <div class="progress-dot active" data-step="1"></div>
+                    <div class="progress-dot" data-step="2"></div>
+                    <div class="progress-dot" data-step="3"></div>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- STEP 1 -->
+                <div class="step active" id="step1">
+                    <h2>Por que você parou de pedir?</h2>
+                    <p class="subtitle">Seja sincero! Queremos melhorar de verdade 💪</p>
+                    <div class="option-grid" id="optionsGrid">
+                        <div class="option-btn" data-value="preco"><span class="icon">💰</span><span>Preço alto</span></div>
+                        <div class="option-btn" data-value="qualidade"><span class="icon">⭐</span><span>Qualidade do produto</span></div>
+                        <div class="option-btn" data-value="entrega"><span class="icon">🚚</span><span>Problemas com entrega</span></div>
+                        <div class="option-btn" data-value="atendimento"><span class="icon">👥</span><span>Atendimento</span></div>
+                        <div class="option-btn" data-value="variedade"><span class="icon">📦</span><span>Falta de variedade</span></div>
+                        <div class="option-btn" data-value="outro"><span class="icon">📝</span><span>Outro motivo</span></div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-next" id="toStep2" disabled>Continuar</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="step" id="step2">
+                    <h2>Qual era sua nota antes de parar?</h2>
+                    <p class="subtitle">De 1 a 5 estrelas</p>
+                    <div class="stars" id="stars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+
+                    <h3 style="text-align:center;margin-top:6px;margin-bottom:8px">Você voltaria a pedir se melhorássemos?</h3>
+                    <div class="radio-group" id="radioGroup">
+                        <div class="radio-btn" data-value="Sim">Sim</div>
+                        <div class="radio-btn" data-value="Talvez">Talvez</div>
+                        <div class="radio-btn" data-value="Não">Não</div>
+                    </div>
+
+                    <div class="buttons">
+                        <button class="btn btn-back" id="backTo1">Voltar</button>
+                        <button class="btn btn-next" id="toStep3" disabled>Continuar</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="step" id="step3">
+                    <h2>Última pergunta! 😊</h2>
+                    <p class="subtitle">O que a gente poderia fazer pra reconquistar você?</p>
+                    <textarea id="suggestions" placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."></textarea>
+
+                    <div class="coupon-box">
+                        <h3>🎁 GANHE 10% OFF</h3>
+                        <p style="color:#065f46;margin-bottom:12px">Preencha seus dados para receber o cupom exclusivo!</p>
+                        <input type="text" id="name" placeholder="Seu nome" />
+                        <input type="tel" id="phone" placeholder="Seu WhatsApp (com DDD) — ex: 5511999998888" />
+                    </div>
+
+                    <div class="buttons">
+                        <button class="btn btn-back" id="backTo2">Voltar</button>
+                        <button class="btn btn-submit" id="submitBtn">📤 ENVIAR & GANHAR CUPOM</button>
+                    </div>
+                    <p style="text-align:center;color:#9ca3af;font-size:.85em;margin-top:12px">Seus dados são seguros e usados apenas para enviar seu cupom</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="container success-screen" id="successScreen" aria-hidden="true">
+            <div class="content">
+                <div class="success-icon">✓</div>
+                <h2 style="font-size:2.2em;margin-bottom:8px">Obrigado! ❤️</h2>
+                <p style="color:#6b7280;font-size:1.05em;margin-bottom:18px">Seu feedback é MUITO valioso pra gente!</p>
+
+                <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:12px;padding:18px">
+                    <h3 style="color:#065f46;font-size:1.05em;margin-bottom:8px">🎁 SEU PRESENTE:</h3>
+                    <div class="coupon-code" id="couponCode">HONESTO10</div>
+                    <p style="color:#065f46;font-size:1.05em">10% OFF</p>
+                    <p style="color:#047857;margin-top:8px">Válido por <strong>10 dias</strong> em qualquer pedido!</p>
+                    <button class="order-btn" id="orderBtn">FAZER PEDIDO AGORA</button>
+                </div>
+
+                <p class="footer-text">Hot Sushi • Obrigado por nos ajudar a melhorar 💛</p>
+            </div>
+        </div>
     </div>
 
-    <p class="footer-text">Hot Sushi • Obrigado por nos ajudar a melhorar 💛</p>
-
     <script>
-        let selectedReason = null;
-        let selectedRating = null;
-        let selectedReturn = null;
+        (function(){
+            // Estado
+            let state = {
+                step: 1,
+                reason: null,
+                rating: null,
+                willReturn: null,
+                suggestions: '',
+                name: '',
+                phone: ''
+            };
 
-        function selectReason(reason) {
-            selectedReason = reason;
-            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            goToStep(2);
-        }
+            // Elementos
+            const steps = {
+                1: document.getElementById('step1'),
+                2: document.getElementById('step2'),
+                3: document.getElementById('step3')
+            };
+            const progressDots = Array.from(document.querySelectorAll('.progress-dot'));
+            const optionBtns = Array.from(document.querySelectorAll('#optionsGrid .option-btn'));
+            const toStep2Btn = document.getElementById('toStep2');
+            const stars = Array.from(document.querySelectorAll('#stars .star'));
+            const radioBtns = Array.from(document.querySelectorAll('#radioGroup .radio-btn'));
+            const toStep3Btn = document.getElementById('toStep3');
+            const backTo1 = document.getElementById('backTo1');
+            const backTo2 = document.getElementById('backTo2');
+            const submitBtn = document.getElementById('submitBtn');
+            const surveyContainer = document.getElementById('surveyContainer');
+            const successScreen = document.getElementById('successScreen');
+            const orderBtn = document.getElementById('orderBtn');
 
-        function selectRating(rate) {
-            selectedRating = rate;
-            document.querySelectorAll('.star').forEach((star, i) => {
-                star.classList.toggle('active', i < rate);
-            });
-            enableStep2Button();
-        }
+            // Helpers
+            function goTo(step) {
+                state.step = step;
+                Object.values(steps).forEach(s => s.classList.remove('active'));
+                steps[step].classList.add('active');
 
-        function selectReturn(value) {
-            selectedReturn = value;
-            document.querySelectorAll('.radio-btn').forEach(btn => btn.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            enableStep2Button();
-        }
+                progressDots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', (idx+1) <= step);
+                });
 
-        function enableStep2Button() {
-            const btn = document.getElementById('btn-step2');
-            if (selectedRating && selectedReturn) btn.disabled = false;
-        }
-
-        function goToStep(step) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
-
-            document.querySelectorAll('.progress-dot').forEach(dot => dot.classList.remove('active'));
-            for (let i = 1; i <= step; i++) {
-                document.getElementById(`dot${i}`).classList.add('active');
-            }
-        }
-
-        function submitForm() {
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-
-            if (!name || !phone) {
-                alert("Por favor, preencha seu nome e WhatsApp.");
-                return;
+                // focus first input for accessibility
+                if (step === 3) {
+                    document.getElementById('suggestions').focus();
+                }
             }
 
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('successScreen').classList.add('active');
+            function normalizePhone(raw) {
+                if (!raw) return '';
+                return raw.replace(/\D/g, '');
+            }
 
-            console.log({
-                motivo: selectedReason,
-                nota: selectedRating,
-                voltaria: selectedReturn,
-                sugestao: document.getElementById('suggestions').value,
-                nome: name,
-                whatsapp: phone
+            // Step 1: opções
+            optionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    optionBtns.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    state.reason = btn.dataset.value;
+                    toStep2Btn.disabled = false;
+                });
             });
-        }
+
+            toStep2Btn.addEventListener('click', () => {
+                if (!state.reason) {
+                    alert('Escolha um motivo para continuar.');
+                    return;
+                }
+                goTo(2);
+            });
+
+            // Step 2: estrelas
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    const value = Number(star.dataset.value);
+                    state.rating = value;
+                    stars.forEach((s,i) => s.classList.toggle('active', i < value));
+                    checkEnableToStep3();
+                });
+                star.addEventListener('mouseover', () => {
+                    const value = Number(star.dataset.value);
+                    stars.forEach((s,i) => s.classList.toggle('active', i < value));
+                });
+                star.addEventListener('mouseout', () => {
+                    stars.forEach((s,i) => s.classList.toggle('active', state.rating && (i < state.rating)));
+                });
+            });
+
+            // Step 2: radio
+            radioBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    radioBtns.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    state.willReturn = btn.dataset.value;
+                    checkEnableToStep3();
+                });
+            });
+
+            function checkEnableToStep3(){
+                toStep3Btn.disabled = !(state.rating && state.willReturn);
+            }
+
+            toStep3Btn.addEventListener('click', () => {
+                if (!state.rating || !state.willReturn) {
+                    alert('Por favor, selecione sua nota e se voltaria a pedir.');
+                    return;
+                }
+                goTo(3);
+            });
+
+            backTo1.addEventListener('click', () => goTo(1));
+            backTo2.addEventListener('click', () => goTo(2));
+
+            // Step 3: submit
+            submitBtn.addEventListener('click', () => {
+                const nameEl = document.getElementById('name');
+                const phoneEl = document.getElementById('phone');
+                state.suggestions = document.getElementById('suggestions').value.trim();
+                state.name = nameEl.value.trim();
+                state.phone = normalizePhone(phoneEl.value);
+
+                if (!state.name || !state.phone) {
+                    alert('Por favor, preencha seu nome e WhatsApp (com DDD).');
+                    return;
+                }
+
+                // Simula envio: aqui você pode integrar fetch() para API/Sheets
+                console.log('ENVIANDO FEEDBACK:', {
+                    motivo: state.reason,
+                    nota: state.rating,
+                    voltaria: state.willReturn,
+                    sugestao: state.suggestions,
+                    nome: state.name,
+                    whatsapp: state.phone
+                });
+
+                // Mostra tela de sucesso
+                surveyContainer.style.display = 'none';
+                successScreen.classList.add('active');
+                successScreen.setAttribute('aria-hidden', 'false');
+
+                // Ajusta botão de pedido para abrir WhatsApp com número informado e mensagem automática
+                const waNumber = state.phone; // já normalizado
+                const message = encodeURIComponent(`Oi Hot Sushi! Recebi meu cupom HONESTO10 e quero fazer meu pedido. Meu nome é ${state.name}.`);
+                orderBtn.onclick = () => {
+                    const url = `https://wa.me/${waNumber}?text=${message}`;
+                    window.open(url, '_blank');
+                };
+
+                // Aqui você pode salvar em localStorage ou enviar a um endpoint:
+                // localStorage.setItem('lastFeedback', JSON.stringify(state));
+            });
+
+            // Inicializações
+            goTo(1);
+            toStep2Btn.disabled = true;
+            toStep3Btn.disabled = true;
+
+            // Permite navegar com Enter nas etapas (extra UX)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (state.step === 1 && !toStep2Btn.disabled) toStep2Btn.click();
+                    else if (state.step === 2 && !toStep3Btn.disabled) toStep3Btn.click();
+                }
+            });
+        })();
     </script>
-<script>
-let selectedReason = null;
-let selectedRating = null;
-let selectedReturn = null;
-
-// STEP 1 – Selecionar motivo
-function selectReason(reason) {
-    selectedReason = reason;
-
-    document.querySelectorAll("#step1 .option-btn").forEach(btn => {
-        btn.classList.remove("selected");
-    });
-
-    event.currentTarget.classList.add("selected");
-    goToStep(2);
-}
-
-// STEP 2 – Selecionar estrelas
-function selectRating(rating) {
-    selectedRating = rating;
-
-    const stars = document.querySelectorAll(".star");
-    stars.forEach((star, index) => {
-        star.classList.toggle("active", index < rating);
-    });
-
-    enableStep2Button();
-}
-
-function selectReturn(value) {
-    selectedReturn = value;
-
-    document.querySelectorAll(".radio-btn").forEach(btn => {
-        btn.classList.remove("selected");
-    });
-    event.currentTarget.classList.add("selected");
-
-    enableStep2Button();
-}
-
-function enableStep2Button() {
-    const btn = document.getElementById("btn-step2");
-    btn.disabled = !(selectedRating && selectedReturn);
-}
-
-// Navegação entre etapas
-function goToStep(step) {
-    document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-    document.getElementById("step" + step).classList.add("active");
-
-    document.querySelectorAll(".progress-dot").forEach(dot => dot.classList.remove("active"));
-    document.getElementById("dot" + step).classList.add("active");
-}
-
-// Envio do formulário
-function submitForm() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-
-    if (!name || !phone) {
-        alert("Por favor, preencha nome e WhatsApp para receber seu cupom.");
-        return;
-    }
-
-    // Aqui você pode enviar via API, Sheet ou WhatsApp
-    console.log({
-        reason: selectedReason,
-        rating: selectedRating,
-        returnDecision: selectedReturn,
-        suggestions: document.getElementById("suggestions").value,
-        name,
-        phone
-    });
-
-    document.querySelector(".container").style.display = "none";
-    document.getElementById("successScreen").classList.add("active");
-}
-</script>
 </body>
 </html>
