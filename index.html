@@ -1,287 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Pesquisa Hot Sushi Lounge</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesquisa Hot Sushi Lounge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
 
-<style>
-    /* RESET */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-    }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+        }
 
-    body {
-        background: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        padding: 20px 16px 50px 16px;
-    }
+        .logo {
+            width: 180px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
 
-    .container {
-        max-width: 420px;
-        margin: auto;
-        text-align: center;
-    }
+        .card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
 
-    /* LOGO */
-    .logo {
-        width: 70%;
-        max-width: 220px;
-        margin: 15px auto 25px auto;
-        display: block;
-    }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #e60000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
 
-    h2 {
-        color: #ff1a1a;
-        font-size: 22px;
-        margin-bottom: 14px;
-        line-height: 1.3;
-    }
+        button:hover {
+            background: #ff1a1a;
+        }
 
-    p {
-        font-size: 15px;
-        opacity: 0.8;
-        line-height: 1.4;
-    }
+        .hidden {
+            display: none;
+        }
 
-    /* PROGRESS */
-    .progress {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        margin-bottom: 18px;
-    }
-
-    .progress-dot {
-        width: 9px;
-        height: 9px;
-        background: #333;
-        border-radius: 50%;
-        transition: 0.3s;
-    }
-
-    .progress-dot.active {
-        background: #ff1a1a;
-    }
-
-    /* STEPS */
-    .step { display: none; }
-    .step.active { display: block; }
-
-    /* BUTTONS */
-    button {
-        font-family: inherit;
-    }
-
-    .option-btn,
-    .radio-btn {
-        width: 100%;
-        padding: 14px;
-        margin: 6px 0;
-        background: #111;
-        border: 1px solid #ff1a1a;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: 0.25s;
-    }
-
-    .option-btn.selected,
-    .radio-btn.selected {
-        background: #ff1a1a;
-        color: #fff;
-    }
-
-    .next-btn,
-    .order-btn {
-        width: 100%;
-        padding: 15px;
-        margin-top: 20px;
-        border: none;
-        border-radius: 12px;
-        background: #ff1a1a;
-        color: #fff;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.25s;
-    }
-
-    /* STARS */
-    .stars-container {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        margin: 20px 0;
-    }
-
-    .star {
-        font-size: 36px;
-        cursor: pointer;
-        color: #444;
-        transition: 0.25s;
-    }
-
-    .star.active {
-        color: #ffcc00;
-    }
-
-    /* INPUTS */
-    textarea,
-    input {
-        width: 100%;
-        padding: 12px;
-        background: #111;
-        border: 1px solid #ff1a1a;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 15px;
-        margin-top: 12px;
-    }
-
-    textarea {
-        height: 90px;
-        resize: none;
-    }
-
-    /* FOOTER */
-    .footer-text {
-        text-align: center;
-        margin-top: 30px;
-        opacity: 0.4;
-        font-size: 13px;
-    }
-</style>
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <img src="logo.png" alt="Hot Sushi Lounge" class="logo">
+    <img class="logo" src="https://i.postimg.cc/cK17vLCG/image.png" alt="Hot Sushi Lounge" />
 
-    <div class="progress">
-        <div class="progress-dot active" id="dot1"></div>
-        <div class="progress-dot" id="dot2"></div>
-        <div class="progress-dot" id="dot3"></div>
+    <!-- Etapa 1 -->
+    <div id="step1" class="card">
+        <h2>Como podemos melhorar sua experiência?</h2>
+        <button onclick="nextStep(2)">Começar Pesquisa</button>
     </div>
 
-    <!-- STEP 1 -->
-    <div id="step1" class="step active">
-        <h2>O que aconteceu na sua experiência?</h2>
-
-        <button class="option-btn" onclick="selectReason('Demora na entrega')">Demora na Entrega</button>
-        <button class="option-btn" onclick="selectReason('Qualidade da comida')">Qualidade da Comida</button>
-        <button class="option-btn" onclick="selectReason('Preço acima do esperado')">Preço Acima do Esperado</button>
-        <button class="option-btn" onclick="selectReason('Outro')">Outro Motivo</button>
+    <!-- Etapa 2 -->
+    <div id="step2" class="card hidden">
+        <h3>Qual seu nome?</h3>
+        <input id="nome" type="text" placeholder="Digite seu nome" />
+        <button onclick="nextStep(3)">Avançar</button>
     </div>
 
-    <!-- STEP 2 -->
-    <div id="step2" class="step">
-        <h2>Como avaliaria o Hot Sushi hoje?</h2>
-
-        <div class="stars-container">
-            <span class="star" onclick="selectRating(1)">★</span>
-            <span class="star" onclick="selectRating(2)">★</span>
-            <span class="star" onclick="selectRating(3)">★</span>
-            <span class="star" onclick="selectRating(4)">★</span>
-            <span class="star" onclick="selectRating(5)">★</span>
-        </div>
-
-        <p>Você voltaria a pedir conosco?</p>
-
-        <button class="radio-btn" onclick="selectReturn('Sim')">Sim, voltaria</button>
-        <button class="radio-btn" onclick="selectReturn('Talvez')">Talvez</button>
-        <button class="radio-btn" onclick="selectReturn('Não')">Não</button>
-
-        <button id="btn-step2" class="next-btn" disabled onclick="goToStep(3)">Continuar</button>
+    <!-- Etapa 3 -->
+    <div id="step3" class="card hidden">
+        <h3>Você já pediu com a gente antes?</h3>
+        <select id="experiencia">
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+        </select>
+        <button onclick="nextStep(4)">Avançar</button>
     </div>
 
-    <!-- STEP 3 -->
-    <div id="step3" class="step">
-        <h2>Ajude-nos a melhorar</h2>
-        <textarea id="suggestions" placeholder="Deixe seu comentário"></textarea>
-
-        <input type="text" id="name" placeholder="Seu nome">
-        <input type="text" id="phone" placeholder="Seu WhatsApp">
-
-        <button class="next-btn" onclick="submitForm()">Enviar</button>
+    <!-- Etapa 4 -->
+    <div id="step4" class="card hidden">
+        <h3>Qual foi o motivo da sua última insatisfação?</h3>
+        <textarea id="feedback" rows="4" placeholder="Escreva aqui..."></textarea>
+        <button onclick="nextStep(5)">Avançar</button>
     </div>
 
-    <!-- SUCCESS -->
-    <div id="successScreen" class="step">
-        <h2>Obrigado por ajudar o Hot Sushi</h2>
-        <p>Sua voz nos guia como um farol.</p>
-
-        <button class="order-btn" onclick="finishAndRedirect()">
-            FAZER PEDIDO AGORA
-        </button>
+    <!-- Etapa 5 -->
+    <div id="step5" class="card hidden">
+        <h3>Obrigado! Quer realizar um pedido agora?</h3>
+        <button onclick="finalizar()">Fazer Pedido</button>
     </div>
-
-    <p class="footer-text">Hot Sushi Lounge • Experiências que aquecem</p>
 
 </div>
 
 <script>
-    let selectedReason = null;
-    let selectedRating = null;
-    let selectedReturn = null;
-
-    function selectReason(reason) {
-        selectedReason = reason;
-        document.querySelectorAll("#step1 .option-btn").forEach(btn => btn.classList.remove("selected"));
-        event.currentTarget.classList.add("selected");
-        goToStep(2);
+    function nextStep(step) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.getElementById(`step${step}`).classList.remove('hidden');
     }
 
-    function selectRating(r) {
-        selectedRating = r;
-        document.querySelectorAll(".star").forEach((star, i) => {
-            star.classList.toggle("active", i < r);
-        });
-        enableStep2Button();
-    }
-
-    function selectReturn(v) {
-        selectedReturn = v;
-        document.querySelectorAll(".radio-btn").forEach(btn => btn.classList.remove("selected"));
-        event.currentTarget.classList.add("selected");
-        enableStep2Button();
-    }
-
-    function enableStep2Button() {
-        document.getElementById("btn-step2").disabled = !(selectedRating && selectedReturn);
-    }
-
-    function goToStep(step) {
-        document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-        document.getElementById("step" + step).classList.add("active");
-
-        document.querySelectorAll(".progress-dot").forEach(dot => dot.classList.remove("active"));
-        document.getElementById("dot" + step).classList.add("active");
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function submitForm() {
-        const name = document.getElementById("name").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-
-        if (!name || !phone) {
-            alert("Preencha nome e WhatsApp.");
-            return;
-        }
-
-        goToStep("successScreen");
-    }
-
-    function finishAndRedirect() {
+    function finalizar() {
         window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
     }
 </script>
