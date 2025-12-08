@@ -29,12 +29,32 @@
             margin: 0 auto;
         }
 
-        .logo {
-            width: 160px;
-            display: block;
-            margin: 0 auto 25px;
-            filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.3));
+        .brand-title {
+            text-align: center;
+            margin: 0 auto 30px;
             animation: float 3s ease-in-out infinite;
+        }
+
+        .brand-title h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #e63946, #ff6b6b, #ff8787);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 0;
+            filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.3));
+        }
+
+        .brand-title p {
+            font-size: 16px;
+            color: #999;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 5px;
         }
 
         @keyframes float {
@@ -420,7 +440,10 @@
 <body>
 
 <div class="container">
-    <img src="https://i.postimg.cc/GhH84jss/Gerente-Geral-supervisiona-opera-es-equipe-finan-as-e-metas-Chef-de-Cozinha-lidera-a-produ-o-e-controle.png" alt="Hot Sushi Logo" class="logo">
+    <div class="brand-title">
+        <h1>HOT SUSHI</h1>
+        <p>LOUNGE</p>
+    </div>
 
     <div class="progress-container">
         <div class="progress-bar">
