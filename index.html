@@ -128,10 +128,18 @@
         document.getElementById(`step${step}`).classList.remove('hidden');
     }
 
-    function finalizar() {
+    async function finalizar() {
+        await enviarParaSheets();
+        window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
+    }() {
         window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
     }
     function chooseExp(tipo) {
+        window.experienciaEscolhida = tipo;
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        if (tipo === 'sim') document.getElementById('step3a').classList.remove('hidden');
+        else document.getElementById('step3b').classList.remove('hidden');
+    }(tipo) {
         document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
         if (tipo === 'sim') document.getElementById('step3a').classList.remove('hidden');
         else document.getElementById('step3b').classList.remove('hidden');
@@ -140,6 +148,21 @@
     function setMotivo(m) {
         window.selectedMotivo = m;
         nextStep(4);
+    }
+    async function enviarParaSheets() {
+        const data = {
+            nome: document.getElementById("nome")?.value || "",
+            experiencia: window.experienciaEscolhida || "",
+            motivo: window.selectedMotivo || "",
+            feedback: document.getElementById("feedback")?.value || ""
+        };
+
+        await fetch("https://script.google.com/macros/s/AKfycbzSNwtkiIEY6OU-vHqzeMz-m1r6LO9mcbBODI7eEWB22cKvYcqt_2u7sdc62dhCKPw/exec", {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
     }
 </script>
 
