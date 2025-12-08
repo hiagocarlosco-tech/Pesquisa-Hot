@@ -1,177 +1,806 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pesquisa Hot Sushi</title>
-<style>
-    body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        background: #0d0d0d;
-        color: #fff;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa Hot Sushi - Ganhe 10% OFF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-        width: 100%;
-        max-width: 500px;
-        margin: auto;
-        padding: 20px;
-        text-align: center;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .logo {
-        width: 160px;
-        display: block;
-        margin: 20px auto;
-    }
+        .container {
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+        }
 
-    .card {
-        background: #1a1a1a;
-        padding: 22px;
-        border-radius: 16px;
-        margin-top: 20px;
-        animation: fade .4s ease;
-    }
+        .logo {
+            width: 160px;
+            display: block;
+            margin: 0 auto 25px;
+            filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.3));
+            animation: float 3s ease-in-out infinite;
+        }
 
-    button {
-        width: 100%;
-        padding: 15px;
-        border-radius: 12px;
-        margin-top: 12px;
-        border: none;
-        font-size: 16px;
-        background: #e63946;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-    button:hover { opacity: 0.8; }
+        .progress-container {
+            background: #2a2a2a;
+            border-radius: 20px;
+            padding: 8px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+        }
 
-    .hidden { display: none; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
 
-    /* Barra de progresso */
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: #333;
-        border-radius: 20px;
-        margin: 20px 0;
-        overflow: hidden;
-    }
-    .progress {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #e63946, #ff6b6b);
-        transition: width .35s ease;
-    }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #e63946, #ff6b6b, #ff8787);
+            background-size: 200% 100%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.6);
+        }
 
-    @keyframes fade {
-        from { opacity: 0; transform: translateY(15px);} 
-        to { opacity: 1; transform: translateY(0);}   
-    }
-</style>
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #999;
+            font-weight: 600;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #242424 0%, #1a1a1a 100%);
+            padding: 35px 28px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e63946, #ff6b6b);
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            font-size: 15px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #e63946;
+            background: #242424;
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #666;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e63946, #ff6b6b);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-option {
+            background: #242424;
+            color: #fff;
+            border: 2px solid #333;
+            text-align: left;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 15px;
+        }
+
+        .btn-option:hover {
+            background: #2a2a2a;
+            border-color: #e63946;
+            transform: translateX(5px);
+        }
+
+        .btn-option .icon {
+            font-size: 24px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .star {
+            font-size: 40px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.2s;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .star:hover {
+            transform: scale(1.2) rotate(15deg);
+            color: #fbbf24;
+        }
+
+        .star.active {
+            color: #fbbf24;
+            filter: drop-shadow(0 0 8px #fbbf24);
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .would-return {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .return-btn {
+            padding: 18px 12px;
+            background: #242424;
+            border: 2px solid #333;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .return-btn:hover {
+            background: #2a2a2a;
+            border-color: #e63946;
+        }
+
+        .return-btn.selected {
+            background: linear-gradient(135deg, #e63946, #ff6b6b);
+            border-color: #e63946;
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4);
+        }
+
+        .coupon-section {
+            background: linear-gradient(135deg, #047857, #059669);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.3);
+        }
+
+        .coupon-section h4 {
+            font-size: 20px;
+            color: #d1fae5;
+            margin-bottom: 15px;
+        }
+
+        .coupon-code {
+            background: white;
+            color: #047857;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .coupon-details {
+            color: #d1fae5;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 50px;
+            box-shadow: 0 10px 40px rgba(5, 150, 105, 0.4);
+            animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #d1fae5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-order {
+            background: linear-gradient(135deg, #e63946, #ff6b6b);
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+            margin-top: 25px;
+            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.5);
+        }
+
+        .btn-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(230, 57, 70, 0.7);
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 2px solid #333;
+            color: #999;
+            margin-top: 15px;
+            padding: 14px;
+            font-weight: 600;
+        }
+
+        .btn-back:hover {
+            background: #242424;
+            border-color: #666;
+            color: #fff;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            .stars {
+                gap: 8px;
+            }
+
+            .star {
+                font-size: 32px;
+            }
+
+            .would-return {
+                grid-template-columns: 1fr;
+            }
+
+            .coupon-code {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="https://i.postimg.cc/GhH84jss/Gerente-Geral-supervisiona-opera-es-equipe-finan-as-e-metas-Chef-de-Cozinha-lidera-a-produ-o-e-controle.png" class="logo" />
+    <img src="https://i.postimg.cc/GhH84jss/Gerente-Geral-supervisiona-opera-es-equipe-finan-as-e-metas-Chef-de-Cozinha-lidera-a-produ-o-e-controle.png" alt="Hot Sushi Logo" class="logo">
 
-    <div class="progress-bar"><div id="progress" class="progress"></div></div>
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div id="progressBar" class="progress"></div>
+        </div>
+        <div class="progress-text">
+            <span id="progressText">Etapa 1 de 5</span>
+        </div>
+    </div>
 
-    <!-- Etapa 1 -->
+    <!-- ETAPA 1: Nome -->
     <div id="step1" class="card">
-        <h3>Qual seu nome?</h3>
-        <input id="nome" type="text" placeholder="Digite seu nome" style="width:100%; padding:12px; border-radius:10px; border:none; margin-top:12px;" />
-        <button onclick="nextStep(2)">Avançar</button>
+        <h3>Qual é o seu nome? 😊</h3>
+        <p class="subtitle">Queremos te conhecer melhor!</p>
+        <input 
+            id="nome" 
+            type="text" 
+            placeholder="Digite seu nome" 
+            autocomplete="name"
+            onkeypress="if(event.key==='Enter') validarNome()"
+        />
+        <button class="btn-primary" onclick="validarNome()">Continuar →</button>
     </div>
 
-    <!-- Etapa 2 -->
+    <!-- ETAPA 2: Já pediu antes? -->
     <div id="step2" class="card hidden">
-        <h3>Você já pediu conosco antes?</h3>
-        <button onclick="chooseExp('sim')">Sim</button>
-        <button onclick="chooseExp('nao')">Não</button>
+        <h3>Olá, <span id="nomeUsuario"></span>! 👋</h3>
+        <p class="subtitle">Você já pediu com a gente antes?</p>
+        <button class="btn-option" onclick="escolherExperiencia('sim')">
+            <span class="icon">✓</span>
+            <span>Sim, já sou cliente</span>
+        </button>
+        <button class="btn-option" onclick="escolherExperiencia('nao')">
+            <span class="icon">✗</span>
+            <span>Não, ainda não pedi</span>
+        </button>
+        <button class="btn-back" onclick="voltarEtapa(1)">← Voltar</button>
     </div>
 
-    <!-- Etapa 3A -->
+    <!-- ETAPA 3A: Por que parou? -->
     <div id="step3a" class="card hidden">
-        <h3>Por que você parou de pedir?</h3>
-        <button onclick="setMotivo('Demora na entrega')">Demora na entrega</button>
-        <button onclick="setMotivo('Qualidade variou')">Qualidade variou</button>
-        <button onclick="setMotivo('Preço alto')">Preço alto</button>
+        <h3>Por que você parou de pedir? 🤔</h3>
+        <p class="subtitle">Seja sincero! Queremos melhorar de verdade</p>
+        <button class="btn-option" onclick="selecionarMotivo('Demora na entrega')">
+            <span class="icon">🕐</span>
+            <span>Demora na entrega</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Qualidade variou')">
+            <span class="icon">⭐</span>
+            <span>Qualidade variou</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Preço alto')">
+            <span class="icon">💰</span>
+            <span>Preço alto</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Atendimento')">
+            <span class="icon">👥</span>
+            <span>Problema com atendimento</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Outro motivo')">
+            <span class="icon">📝</span>
+            <span>Outro motivo</span>
+        </button>
+        <button class="btn-back" onclick="voltarEtapa(2)">← Voltar</button>
     </div>
 
-    <!-- Etapa 3B -->
+    <!-- ETAPA 3B: Por que não pediu? -->
     <div id="step3b" class="card hidden">
-        <h3>Por que ainda não pediu com a gente?</h3>
-        <button onclick="setMotivo('Não conhecia')">Não conhecia</button>
-        <button onclick="setMotivo('Preferi outro restaurante')">Preferi outro restaurante</button>
-        <button onclick="setMotivo('Tive uma experiência ruim')">Tive uma experiência ruim</button>
+        <h3>Por que ainda não pediu? 🍣</h3>
+        <p class="subtitle">Queremos te conquistar!</p>
+        <button class="btn-option" onclick="selecionarMotivo('Não conhecia o restaurante')">
+            <span class="icon">❓</span>
+            <span>Não conhecia o restaurante</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Preferi outro restaurante')">
+            <span class="icon">🏪</span>
+            <span>Preferi outro restaurante</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Preço parece alto')">
+            <span class="icon">💸</span>
+            <span>Preço parece alto</span>
+        </button>
+        <button class="btn-option" onclick="selecionarMotivo('Tive experiência ruim')">
+            <span class="icon">😞</span>
+            <span>Tive uma experiência ruim</span>
+        </button>
+        <button class="btn-back" onclick="voltarEtapa(2)">← Voltar</button>
     </div>
 
-    <!-- Etapa 4 -->
+    <!-- ETAPA 4: Avaliação -->
     <div id="step4" class="card hidden">
-        <h3>Quer deixar um feedback?</h3>
-        <textarea id="feedback" placeholder="Escreva aqui" style="width:100%;height:120px;border-radius:12px;border:none;padding:12px;"></textarea>
-        <button onclick="finalizar()">Enviar e Fazer Pedido</button>
+        <h3>Como você avaliaria sua experiência? ⭐</h3>
+        <p class="subtitle">De 1 a 5 estrelas</p>
+        
+        <div class="stars">
+            <span class="star" data-rating="1" onclick="selecionarNota(1)">★</span>
+            <span class="star" data-rating="2" onclick="selecionarNota(2)">★</span>
+            <span class="star" data-rating="3" onclick="selecionarNota(3)">★</span>
+            <span class="star" data-rating="4" onclick="selecionarNota(4)">★</span>
+            <span class="star" data-rating="5" onclick="selecionarNota(5)">★</span>
+        </div>
+        <div class="rating-labels">
+            <span>Péssima</span>
+            <span>Excelente</span>
+        </div>
+
+        <h3 style="margin-top: 35px; margin-bottom: 15px;">Você voltaria a pedir?</h3>
+        
+        <div class="would-return">
+            <div class="return-btn" onclick="selecionarRetorno('Sim')">Sim! 😊</div>
+            <div class="return-btn" onclick="selecionarRetorno('Talvez')">Talvez 🤷</div>
+            <div class="return-btn" onclick="selecionarRetorno('Não')">Não 😔</div>
+        </div>
+
+        <button class="btn-primary" id="btnContinuar4" onclick="irParaFeedback()" disabled style="opacity: 0.5;">Continuar →</button>
+        <button class="btn-back" onclick="voltarEtapa(window.dadosPesquisa.experiencia === 'sim' ? '3a' : '3b')">← Voltar</button>
+    </div>
+
+    <!-- ETAPA 5: Feedback e WhatsApp -->
+    <div id="step5" class="card hidden">
+        <h3>Última pergunta! 💬</h3>
+        <p class="subtitle">O que podemos fazer para te reconquistar?</p>
+        
+        <textarea 
+            id="feedback" 
+            placeholder="Exemplo: Mais promoções, melhorar embalagem, adicionar sobremesas..."
+        ></textarea>
+
+        <div class="coupon-section">
+            <h4>🎁 GANHE SEU CUPOM EXCLUSIVO!</h4>
+            <p class="coupon-details" style="margin-bottom: 15px;">
+                Preencha seu WhatsApp para receber:
+            </p>
+            <input 
+                id="whatsapp" 
+                type="tel" 
+                placeholder="(34) 99999-9999" 
+                style="background: white; color: #047857; border: none;"
+                onkeyup="formatarTelefone(this)"
+            />
+        </div>
+
+        <button class="btn-primary" onclick="enviarPesquisa()">
+            📤 Enviar & Ganhar Cupom
+        </button>
+        <button class="btn-back" onclick="voltarEtapa(4)">← Voltar</button>
+        
+        <p class="footer-note">
+            Seus dados são seguros e usados apenas para enviar seu cupom 🔒
+        </p>
+    </div>
+
+    <!-- TELA DE SUCESSO -->
+    <div id="successScreen" class="card hidden">
+        <div class="success-screen">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Muito obrigado! ❤️</h2>
+            <p class="subtitle" style="font-size: 16px; margin-bottom: 25px;">
+                Seu feedback é MUITO valioso para nós!
+            </p>
+
+            <div class="coupon-section">
+                <h4>🎁 SEU PRESENTE EXCLUSIVO:</h4>
+                <div class="coupon-code">HONESTO10</div>
+                <p class="coupon-details">
+                    <strong>10% OFF</strong><br>
+                    Válido por 10 dias em qualquer pedido!
+                </p>
+            </div>
+
+            <button class="btn-order" onclick="window.location.href='https://delivery.yooga.app/hot-delivery/tabs/home'">
+                🍣 USAR MEU CUPOM AGORA
+            </button>
+
+            <p class="footer-note" style="margin-top: 25px;">
+                Prometemos fazer sua próxima experiência ser incrível! 🙏<br>
+                Vamos trabalhar em cada ponto que você mencionou.
+            </p>
+        </div>
     </div>
 </div>
 
 <script>
-let currentStep = 1;
+// Dados da pesquisa
+window.dadosPesquisa = {
+    nome: '',
+    experiencia: '',
+    motivo: '',
+    avaliacao: 0,
+    voltaria: '',
+    feedback: '',
+    whatsapp: ''
+};
 
-function updateProgress() {
-    const total = 4;
-    let pct = (currentStep - 1) / (total - 1) * 100;
-    document.getElementById("progress").style.width = pct + "%";
+let etapaAtual = 1;
+const totalEtapas = 5;
+
+// Atualizar barra de progresso
+function atualizarProgresso() {
+    const porcentagem = ((etapaAtual - 1) / (totalEtapas - 1)) * 100;
+    document.getElementById('progressBar').style.width = porcentagem + '%';
+    document.getElementById('progressText').textContent = `Etapa ${etapaAtual} de ${totalEtapas}`;
 }
 
-function nextStep(step) {
-    document.getElementById("step" + currentStep).classList.add("hidden");
-    currentStep = step;
-    document.getElementById("step" + step).classList.remove("hidden");
-    updateProgress();
+// Mostrar etapa
+function mostrarEtapa(numero) {
+    // Esconder todas
+    document.querySelectorAll('.card').forEach(card => card.classList.add('hidden'));
+    
+    // Mostrar a desejada
+    let stepId = 'step' + numero;
+    if (numero === '3a' || numero === '3b') {
+        stepId = 'step' + numero;
+    }
+    
+    const step = document.getElementById(stepId);
+    if (step) {
+        step.classList.remove('hidden');
+    }
+    
+    // Atualizar contador de etapa (considerar 3a e 3b como etapa 3)
+    if (numero === '3a' || numero === '3b') {
+        etapaAtual = 3;
+    } else {
+        etapaAtual = parseInt(numero) || etapaAtual;
+    }
+    
+    atualizarProgresso();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function chooseExp(tipo) {
-    window.experienciaEscolhida = tipo;
-    document.getElementById("step2").classList.add("hidden");
-    currentStep = 3;
-    if (tipo === "sim") document.getElementById("step3a").classList.remove("hidden");
-    else document.getElementById("step3b").classList.remove("hidden");
-    updateProgress();
+// Voltar etapa
+function voltarEtapa(numero) {
+    mostrarEtapa(numero);
 }
 
-function setMotivo(m) {
-    window.selectedMotivo = m;
-    document.getElementById("step3a").classList.add("hidden");
-    document.getElementById("step3b").classList.add("hidden");
-    nextStep(4);
+// ETAPA 1: Validar nome
+function validarNome() {
+    const nome = document.getElementById('nome').value.trim();
+    if (!nome) {
+        alert('Por favor, digite seu nome para continuar 😊');
+        return;
+    }
+    window.dadosPesquisa.nome = nome;
+    document.getElementById('nomeUsuario').textContent = nome;
+    mostrarEtapa(2);
 }
 
-async function enviarParaSheets() {
-    const data = {
-        nome: document.getElementById("nome")?.value || "",
-        experiencia: window.experienciaEscolhida || "",
-        motivo: window.selectedMotivo || "",
-        feedback: document.getElementById("feedback")?.value || ""
-    };
+// ETAPA 2: Escolher experiência
+function escolherExperiencia(tipo) {
+    window.dadosPesquisa.experiencia = tipo;
+    mostrarEtapa(tipo === 'sim' ? '3a' : '3b');
+}
 
-    await fetch("https://script.google.com/macros/s/AKfycbzSNwtkiIEY6OU-vHqzeMz-m1r6LO9mcbBODI7eEWB22cKvYcqt_2u7sdc62dhCKPw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+// ETAPA 3: Selecionar motivo
+function selecionarMotivo(motivo) {
+    window.dadosPesquisa.motivo = motivo;
+    mostrarEtapa(4);
+}
+
+// ETAPA 4: Selecionar nota
+function selecionarNota(nota) {
+    window.dadosPesquisa.avaliacao = nota;
+    
+    // Atualizar estrelas visualmente
+    document.querySelectorAll('.star').forEach((star, index) => {
+        if (index < nota) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
     });
+    
+    verificarEtapa4Completa();
 }
 
-async function finalizar() {
-    await enviarParaSheets();
-    window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
+// ETAPA 4: Selecionar se voltaria
+function selecionarRetorno(opcao) {
+    window.dadosPesquisa.voltaria = opcao;
+    
+    // Atualizar botões visualmente
+    document.querySelectorAll('.return-btn').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.textContent.includes(opcao)) {
+            btn.classList.add('selected');
+        }
+    });
+    
+    verificarEtapa4Completa();
 }
+
+// Verificar se etapa 4 está completa
+function verificarEtapa4Completa() {
+    const btn = document.getElementById('btnContinuar4');
+    if (window.dadosPesquisa.avaliacao > 0 && window.dadosPesquisa.voltaria) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    }
+}
+
+// Ir para feedback
+function irParaFeedback() {
+    mostrarEtapa(5);
+}
+
+// Formatar telefone
+function formatarTelefone(input) {
+    let valor = input.value.replace(/\D/g, '');
+    if (valor.length <= 11) {
+        valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
+        valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
+    }
+    input.value = valor;
+}
+
+// Enviar pesquisa para Google Sheets
+async function enviarPesquisa() {
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const feedback = document.getElementById('feedback').value.trim();
+    
+    if (!whatsapp) {
+        alert('Por favor, preencha seu WhatsApp para receber o cupom! 📱');
+        return;
+    }
+    
+    // Validar WhatsApp básico
+    const numeros = whatsapp.replace(/\D/g, '');
+    if (numeros.length < 10) {
+        alert('Por favor, digite um WhatsApp válido! 📱');
+        return;
+    }
+    
+    window.dadosPesquisa.feedback = feedback;
+    window.dadosPesquisa.whatsapp = whatsapp;
+    
+    // Preparar dados para envio
+    const dados = {
+        timestamp: new Date().toLocaleString('pt-BR'),
+        nome: window.dadosPesquisa.nome,
+        experiencia: window.dadosPesquisa.experiencia,
+        motivo: window.dadosPesquisa.motivo,
+        avaliacao: window.dadosPesquisa.avaliacao,
+        voltaria: window.dadosPesquisa.voltaria,
+        feedback: window.dadosPesquisa.feedback,
+        whatsapp: window.dadosPesquisa.whatsapp
+    };
+    
+    // Desabilitar botão durante envio
+    const btn = event.target;
+    const textoOriginal = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Enviando...';
+    
+    try {
+        // Enviar para Google Sheets
+        await fetch('https://script.google.com/macros/s/AKfycbzSNwtkiIEY6OU-vHqzeMz-m1r6LO9mcbBODI7eEWB22cKvYcqt_2u7sdc62dhCKPw/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
+        
+        // Aguardar um momento
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Mostrar tela de sucesso
+        mostrarEtapa('successScreen');
+        document.getElementById('successScreen').classList.remove('hidden');
+        
+    } catch (error) {
+        console.error('Erro ao enviar:', error);
+        // Mesmo com erro, mostrar sucesso (mode: no-cors não retorna resposta)
+        mostrarEtapa('successScreen');
+        document.getElementById('successScreen').classList.remove('hidden');
+    }
+}
+
+// Inicializar
+atualizarProgresso();
 </script>
+
 </body>
 </html>
