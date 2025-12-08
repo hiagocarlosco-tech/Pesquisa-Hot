@@ -1,105 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pesquisa Hot Sushi Lounge</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pesquisa Hot Sushi</title>
+<style>
+    body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background: #0d0d0d;
+        color: #fff;
+        padding: 0;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-            padding: 20px;
-        }
+    .container {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
 
-        .logo {
-            width: 180px;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
+    .logo {
+        width: 160px;
+        display: block;
+        margin: 20px auto;
+    }
 
-        .card {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-        }
+    .card {
+        background: #1a1a1a;
+        padding: 22px;
+        border-radius: 16px;
+        margin-top: 20px;
+        animation: fade .4s ease;
+    }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #e60000;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    button {
+        width: 100%;
+        padding: 15px;
+        border-radius: 12px;
+        margin-top: 12px;
+        border: none;
+        font-size: 16px;
+        background: #e63946;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-        button:hover {
-            background: #ff1a1a;
-        }
+    button:hover { opacity: 0.8; }
 
-        .hidden {
-            display: none;
-        }
+    .hidden { display: none; }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
-        }
-    </style>
+    /* Barra de progresso */
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #333;
+        border-radius: 20px;
+        margin: 20px 0;
+        overflow: hidden;
+    }
+    .progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #e63946, #ff6b6b);
+        transition: width .35s ease;
+    }
+
+    @keyframes fade {
+        from { opacity: 0; transform: translateY(15px);} 
+        to { opacity: 1; transform: translateY(0);}   
+    }
+</style>
 </head>
 <body>
 
 <div class="container">
+    <img src="https://i.postimg.cc/GhH84jss/Gerente-Geral-supervisiona-opera-es-equipe-finan-as-e-metas-Chef-de-Cozinha-lidera-a-produ-o-e-controle.png" class="logo" />
 
-    <img class="logo" src="https://i.postimg.cc/cK17vLCG/image.png" alt="Hot Sushi Lounge" />
+    <div class="progress-bar"><div id="progress" class="progress"></div></div>
 
     <!-- Etapa 1 -->
     <div id="step1" class="card">
-        <h2>Como podemos melhorar sua experiência?</h2>
-        <button onclick="nextStep(2)">Começar Pesquisa</button>
+        <h3>Qual seu nome?</h3>
+        <input id="nome" type="text" placeholder="Digite seu nome" style="width:100%; padding:12px; border-radius:10px; border:none; margin-top:12px;" />
+        <button onclick="nextStep(2)">Avançar</button>
     </div>
 
     <!-- Etapa 2 -->
     <div id="step2" class="card hidden">
-        <h3>Qual seu nome?</h3>
-        <input id="nome" type="text" placeholder="Digite seu nome" />
-        <button onclick="nextStep(3)">Avançar</button>
-    </div>
-
-    <!-- Etapa 3 -->
-    <div id="step3" class="card hidden">
-        <h3>Você já pediu com a gente antes?</h3>
+        <h3>Você já pediu conosco antes?</h3>
         <button onclick="chooseExp('sim')">Sim</button>
         <button onclick="chooseExp('nao')">Não</button>
     </div>
 
-    <!-- Etapa 3A - Motivos (Sim) -->
+    <!-- Etapa 3A -->
     <div id="step3a" class="card hidden">
-        <h3>O que fez você parar de pedir?</h3>
+        <h3>Por que você parou de pedir?</h3>
         <button onclick="setMotivo('Demora na entrega')">Demora na entrega</button>
         <button onclick="setMotivo('Qualidade variou')">Qualidade variou</button>
-        <button onclick="setMotivo('Preço ficou alto')">Preço ficou alto</button>
+        <button onclick="setMotivo('Preço alto')">Preço alto</button>
     </div>
 
-    <!-- Etapa 3B - Motivos (Não) -->
+    <!-- Etapa 3B -->
     <div id="step3b" class="card hidden">
         <h3>Por que ainda não pediu com a gente?</h3>
         <button onclick="setMotivo('Não conhecia')">Não conhecia</button>
@@ -109,62 +114,64 @@
 
     <!-- Etapa 4 -->
     <div id="step4" class="card hidden">
-        <h3>Qual foi o motivo da sua última insatisfação?</h3>
-        <textarea id="feedback" rows="4" placeholder="Escreva aqui..."></textarea>
-        <button onclick="nextStep(5)">Avançar</button>
+        <h3>Quer deixar um feedback?</h3>
+        <textarea id="feedback" placeholder="Escreva aqui" style="width:100%;height:120px;border-radius:12px;border:none;padding:12px;"></textarea>
+        <button onclick="finalizar()">Enviar e Fazer Pedido</button>
     </div>
-
-    <!-- Etapa 5 -->
-    <div id="step5" class="card hidden">
-        <h3>Obrigado! Quer realizar um pedido agora?</h3>
-        <button onclick="finalizar()">Fazer Pedido</button>
-    </div>
-
 </div>
 
 <script>
-    function nextStep(step) {
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        document.getElementById(`step${step}`).classList.remove('hidden');
-    }
+let currentStep = 1;
 
-    async function finalizar() {
-        await enviarParaSheets();
-        window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
-    }() {
-        window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
-    }
-    function chooseExp(tipo) {
-        window.experienciaEscolhida = tipo;
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        if (tipo === 'sim') document.getElementById('step3a').classList.remove('hidden');
-        else document.getElementById('step3b').classList.remove('hidden');
-    }(tipo) {
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        if (tipo === 'sim') document.getElementById('step3a').classList.remove('hidden');
-        else document.getElementById('step3b').classList.remove('hidden');
-    }
+function updateProgress() {
+    const total = 4;
+    let pct = (currentStep - 1) / (total - 1) * 100;
+    document.getElementById("progress").style.width = pct + "%";
+}
 
-    function setMotivo(m) {
-        window.selectedMotivo = m;
-        nextStep(4);
-    }
-    async function enviarParaSheets() {
-        const data = {
-            nome: document.getElementById("nome")?.value || "",
-            experiencia: window.experienciaEscolhida || "",
-            motivo: window.selectedMotivo || "",
-            feedback: document.getElementById("feedback")?.value || ""
-        };
+function nextStep(step) {
+    document.getElementById("step" + currentStep).classList.add("hidden");
+    currentStep = step;
+    document.getElementById("step" + step).classList.remove("hidden");
+    updateProgress();
+}
 
-        await fetch("https://script.google.com/macros/s/AKfycbzSNwtkiIEY6OU-vHqzeMz-m1r6LO9mcbBODI7eEWB22cKvYcqt_2u7sdc62dhCKPw/exec", {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
-    }
+function chooseExp(tipo) {
+    window.experienciaEscolhida = tipo;
+    document.getElementById("step2").classList.add("hidden");
+    currentStep = 3;
+    if (tipo === "sim") document.getElementById("step3a").classList.remove("hidden");
+    else document.getElementById("step3b").classList.remove("hidden");
+    updateProgress();
+}
+
+function setMotivo(m) {
+    window.selectedMotivo = m;
+    document.getElementById("step3a").classList.add("hidden");
+    document.getElementById("step3b").classList.add("hidden");
+    nextStep(4);
+}
+
+async function enviarParaSheets() {
+    const data = {
+        nome: document.getElementById("nome")?.value || "",
+        experiencia: window.experienciaEscolhida || "",
+        motivo: window.selectedMotivo || "",
+        feedback: document.getElementById("feedback")?.value || ""
+    };
+
+    await fetch("https://script.google.com/macros/s/AKfycbzSNwtkiIEY6OU-vHqzeMz-m1r6LO9mcbBODI7eEWB22cKvYcqt_2u7sdc62dhCKPw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+}
+
+async function finalizar() {
+    await enviarParaSheets();
+    window.location.href = "https://delivery.yooga.app/hot-delivery/tabs/home";
+}
 </script>
-
 </body>
 </html>
