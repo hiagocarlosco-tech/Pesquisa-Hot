@@ -791,6 +791,9 @@ async function enviarPesquisa() {
         whatsapp: window.dadosPesquisa.whatsapp
     };
     
+    // Log para debug (você pode ver no console do navegador F12)
+    console.log('📊 Dados sendo enviados:', dados);
+    
     // Desabilitar botão durante envio
     const btn = event.target;
     const textoOriginal = btn.innerHTML;
@@ -798,24 +801,41 @@ async function enviarPesquisa() {
     btn.innerHTML = '⏳ Enviando...';
     
     try {
+        // TESTE 1: Enviar usando FormData (mais compatível)
+        const formData = new FormData();
+        formData.append('timestamp', dados.timestamp);
+        formData.append('nome', dados.nome);
+        formData.append('experiencia', dados.experiencia);
+        formData.append('motivo', dados.motivo);
+        formData.append('avaliacao', dados.avaliacao);
+        formData.append('voltaria', dados.voltaria);
+        formData.append('feedback', dados.feedback);
+        formData.append('whatsapp', dados.whatsapp);
+        
         // Enviar para Google Sheets
-        await fetch('https://script.google.com/macros/s/AKfycbzommaap0xZLdk4PGohaxxgM49i3vC5XVpbxtUabZMuFfzWk-0hoy8ZoAzkzqD8D6k/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbyDS59qovgLsgzoca-P_AfXwoS9J6VgOx1Id-xtOV0jC1j1y_42XX9YF8xrcu3P8GE/exec', {
             method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
+            body: formData
+        })
+        .then(() => {
+            console.log('✅ Enviado com sucesso!');
+        })
+        .catch(err => {
+            console.error('❌ Erro:', err);
         });
         
-        // Aguardar um momento
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Aguardar 2 segundos para dar tempo do envio
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        console.log('✅ Mostrando tela de sucesso');
         
         // Mostrar tela de sucesso
         mostrarEtapa('successScreen');
         document.getElementById('successScreen').classList.remove('hidden');
         
     } catch (error) {
-        console.error('Erro ao enviar:', error);
-        // Mesmo com erro, mostrar sucesso (mode: no-cors não retorna resposta)
+        console.error('❌ Erro ao enviar:', error);
+        // Mesmo com erro, mostrar sucesso
         mostrarEtapa('successScreen');
         document.getElementById('successScreen').classList.remove('hidden');
     }
